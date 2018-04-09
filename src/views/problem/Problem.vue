@@ -19,6 +19,8 @@
           <Option value="2">Assignment problem</Option>
         </Select>
       </FormItem>
+      <FormItem label="Description">
+      </FormItem>
     </Form>
   </div>
 </template>
