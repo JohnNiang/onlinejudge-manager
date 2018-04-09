@@ -1,0 +1,40 @@
+@mixin clearfix {
+  &::after {
+    content: '';
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+  }
+}
+
+@mixin mq($display, $breakpoint) {
+  @media #{$display} and #{$breakpoint} {
+    @content;
+  }
+}
+
+@mixin displayFlex {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin flexOrder($number) {
+  -webkit-box-ordinal-group: $number;
+  -moz-box-ordinal-group: $number;
+  -ms-flex-order: $number;
+  -webkit-order: $number;
+  order: $number;
+}
+
+@mixin normalBoxShadow() {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+@mixin removeOutline() {
+  outline: 0;
+  border: none;
+}
