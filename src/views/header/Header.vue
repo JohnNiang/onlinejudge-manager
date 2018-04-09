@@ -69,6 +69,7 @@ nav {
 .router-link-active {
   background: $nav-active-color;
   color: $black-color;
+  border-radius: 5px;
 }
 
 @include mq('screen', $mq_small_only) {
