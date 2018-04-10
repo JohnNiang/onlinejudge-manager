@@ -20,6 +20,7 @@
         </Select>
       </FormItem>
       <FormItem label="Description">
+        <markdown-editor v-model="problem.description"></markdown-editor>
       </FormItem>
     </Form>
   </div>
@@ -27,14 +28,25 @@
 
 <script>
 import * as filterUtil from '../../utils/filter'
+import MarkdownEditor from '@/components/markdown-editor/MarkdownEditor'
+
 export default {
+  components: {
+    MarkdownEditor
+  },
   data() {
     return {
       problem: {
         timeLimit: 1000,
-        memoryLimit: 32768
+        memoryLimit: 32768,
+        description: '\n\n# Input\n\n # Output'
       }
     }
+  },
+  mounted() {
+    setInterval(() => {
+      this.source = new Date().toLocaleTimeString()
+    }, 1000)
   },
   methods: {
     formatLimit(num) {
