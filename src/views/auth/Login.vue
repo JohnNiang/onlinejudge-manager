@@ -1,14 +1,37 @@
 <template>
-  <Modal title="Sign In" :value="value" :loading="modalLoading" class-name="vertical-center-modal" cancel-text="Cancel" ok-text="Login" @on-visible-change="handleVisibleChange" @on-ok="handleLogin">
-    <Form :label-width="70">
-      <FormItem label="Username">
-        <Input v-model="auth.username" placeholder="Please input your username" />
-      </FormItem>
-      <FormItem label="Password">
-        <Input v-model="auth.password" placeholder="Please input your password" />
-      </FormItem>
-    </Form>
-  </Modal>
+  <div class="login" @keydown.enter="handleSubmit">
+    <div class="login-con">
+      <Card :bordered="false">
+        <p slot="title">
+          <Icon type="log-in"></Icon>
+          欢迎登录
+        </p>
+        <div class="form-con">
+          <Form ref="loginForm" :model="auth" :rules="rules">
+            <FormItem prop="userName">
+              <Input v-model="auth.username" placeholder="请输入用户名">
+              <span slot="prepend">
+                <Icon :size="16" type="person"></Icon>
+              </span>
+              </Input>
+            </FormItem>
+            <FormItem prop="password">
+              <Input type="password" v-model="auth.password" placeholder="请输入密码">
+              <span slot="prepend">
+                <Icon :size="14" type="locked"></Icon>
+              </span>
+              </Input>
+            </FormItem>
+            <FormItem>
+              <span class="login-error" v-if="error">{{error}}</span>
+              <Button @click="handleSubmit" type="primary" long>登录</Button>
+            </FormItem>
+          </Form>
+          <p class="login-tip">输入用户名和密码登录</p>
+        </div>
+      </Card>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -26,36 +49,45 @@ export default {
         username: '',
         password: ''
       },
-      modalLoading: false
+      error: null,
+      rules: {
+        username: [
+          { required: true, message: '账号不能为空', trigger: 'blur' }
+        ],
+        password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
+      }
     }
   },
   methods: {
     ...mapMutations({
-      setToken: type.SET_TOKEN,
-      errorOccurred: type.ERROR_OCCURRED
+      setToken: type.SET_TOKEN
     }),
     handleVisibleChange(visible) {
       this.$emit('input', visible)
     },
-    handleLogin() {
-      this.modalLoading = true
-      authApi.login(this.auth.username, this.auth.password).then(response => {
-        if (response) {
-          if (response.status === 200) {
-            this.setToken(response.data)
-            this.$Notice.success({
-              title: 'You have been sign in successfully'
+    handleSubmit() {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          this.error = null
+          authApi
+            .login(this.auth.username, this.auth.password)
+            .then(response => {
+              if (response) {
+                if (response.status === 200) {
+                  this.setToken(response.data)
+                  this.$Notice.success({
+                    title: 'You have been sign in successfully'
+                  })
+                  // go into the index page
+                  this.$router.push({
+                    name: 'home'
+                  })
+                } else {
+                  this.error = 'username or password is incorrect'
+                }
+              }
             })
-          } else if (response.status === 400) {
-            this.errorOccurred(
-              'Login failed, username or password was not available'
-            )
-          } else if (response.status === 500) {
-            this.errorOccurred('Login failed, may be you have been logined')
-          }
         }
-        this.modalLoading = false
-        this.$Modal.remove()
       })
     }
   }
@@ -63,13 +95,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.vertical-center-modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@import '../../styles/base/variable';
 
-  .ivu-modal {
-    top: 0;
-  }
+.login {
+  width: 100%;
+  height: 100%;
+  background-image: url('../../assets/login-bg.jpg');
+  background-size: cover;
+  position: relative;
+}
+
+.login-con {
+  position: absolute;
+  right: 160px;
+  top: 50%;
+  transform: translateY(-60%);
+  width: 300px;
+}
+
+.form-con {
+  padding: 10px 0 0;
+}
+
+.login-error {
+  color: $error-color;
+}
+
+.login-tip {
+  font-size: 10px;
+  text-align: center;
+  color: #c3c3c3;
 }
 </style>

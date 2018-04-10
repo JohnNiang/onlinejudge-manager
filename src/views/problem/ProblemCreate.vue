@@ -14,11 +14,12 @@
         <span>1024KB - 102400KB</span>
       </FormItem>
       <FormItem label="Type">
-        <Select v-model="problem.type">
+        <Select v-model="problem.type" class="type_select">
           <Option value="0">General problem</Option>
           <Option value="1">Contest problem</Option>
           <Option value="2">Assignment problem</Option>
         </Select>
+        <span>default: general</span>
       </FormItem>
       <FormItem label="Description">
         <markdown-editor v-model="problem.description"></markdown-editor>
@@ -44,6 +45,7 @@ export default {
       problem: {
         timeLimit: 1000,
         memoryLimit: 32768,
+        type: 0,
         description: '\n# Input\n\n # Output'
       }
     }
@@ -60,8 +62,13 @@ export default {
     handleSubmit() {
       console.log(this.problem)
       problemApi.createProblem(this.problem).then(response => {
-        if (response && response.status === 200) {
-          console.log('problem has been created', response.data)
+        if (response) {
+          if (response.status === 200) {
+            console.log('problem has been created', response.data)
+            this.$Notice.success({
+              title: 'Problem has been created successfully'
+            })
+          }
         }
       })
     }
@@ -77,5 +84,9 @@ export default {
     margin-top: 20px;
     margin-bottom: 20px;
   }
+}
+
+.type_select {
+  width: 200px;
 }
 </style>

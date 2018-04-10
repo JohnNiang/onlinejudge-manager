@@ -10,14 +10,45 @@
           <router-link tag="a" to="/home">Index</router-link>
         </li>
         <li>
-          <router-link tag="a" to="/problems">
-            Problem M
-          </router-link>
+          <Dropdown>
+            <a href="javascript:void(0)">
+              Problem
+              <Icon type="arrow-down-b"></Icon>
+            </a>
+            <DropdownMenu slot="list">
+              <DropdownItem>
+                <router-link tag="a" to="/problems/create">
+                  Create
+                </router-link>
+              </DropdownItem>
+              <DropdownItem divided>
+                <router-link tag="a" to="/problems/check">
+                  Check
+                </router-link>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </li>
         <li>
-          <router-link tag="a" to="/contests">
-            Contest M
-          </router-link>
+          <Dropdown>
+            <a href="javascript:void(0)">
+              Contest
+              <Icon type="arrow-down-b"></Icon>
+            </a>
+            <DropdownMenu slot="list">
+              <DropdownItem>
+                <router-link tag="a" to="/contests/create">
+                  Create
+                </router-link>
+              </DropdownItem>
+              <DropdownItem divided>
+                <router-link tag="a" to="/contests/check">
+                  Check
+                </router-link>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+
         </li>
         <li>
           <router-link tag="a" to="/users">
@@ -40,14 +71,14 @@
         <login v-model="loginVisiable"></login>
       </div>
       <div class="avatar" v-else>
-        <Dropdown>
+        <Dropdown @on-click="handlePersonalCenter">
           <a href="javascript:void(0)">
             {{username}}
             <Icon type="arrow-down-b"></Icon>
           </a>
           <DropdownMenu slot="list">
-            <DropdownItem>Personal Center</DropdownItem>
-            <DropdownItem divided>Logout</DropdownItem>
+            <DropdownItem name="center">Personal Center</DropdownItem>
+            <DropdownItem name="logout" divided>Logout</DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <Avatar icon="person" size="large" />
@@ -71,6 +102,19 @@ export default {
   },
   computed: {
     ...mapGetters(['isLogined', 'username'])
+  },
+  methods: {
+    handlePersonalCenter(name) {
+      console.log(name)
+      if (name === 'center') {
+        // todo
+      } else if (name === 'logout') {
+        // todo clear the token
+        this.$router.push({
+          name: 'login'
+        })
+      }
+    }
   }
 }
 </script>
@@ -99,11 +143,17 @@ nav {
   }
 }
 
-.router-link-active {
-  background: $nav-active-color;
-  color: $black-color;
-  border-radius: 5px;
+.ivu-dropdown {
+  ul li a {
+    color: $black-color;
+  }
 }
+
+// .router-link-active {
+//   background: $nav-active-color;
+//   color: $black-color;
+//   border-radius: 5px;
+// }
 
 @include mq('screen', $mq_small_only) {
   nav {
