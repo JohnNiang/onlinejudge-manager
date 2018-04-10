@@ -22,7 +22,11 @@ const getters = {
   tokenType: state => state.tokenType,
   refreshToken: state => state.refreshToken,
   username: state => state.username,
-  globalError: state => state.globalError
+  globalError: state => state.globalError,
+  isLogined: state =>
+    state.accessToken !== null ||
+    state.accessToken !== undefined ||
+    state.accessToken !== ''
 }
 
 const mutations = {

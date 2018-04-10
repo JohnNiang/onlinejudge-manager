@@ -1,6 +1,7 @@
 import axios from 'axios'
 import NProgress from 'nprogress'
 import * as type from '../store/mutation-type'
+import { Modal } from 'iview'
 
 import store from '../store'
 
@@ -48,6 +49,7 @@ service.interceptors.response.use(
   },
   error => {
     NProgress.done()
+    Modal.remove()
     // clear global error
     console.log('clear error')
     store.commit(type.ERROR_OCCURRED, null)

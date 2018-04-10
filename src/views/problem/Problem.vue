@@ -1,5 +1,6 @@
 <template>
   <div class="problem_wrapper">
+    <h2>Problem Addition</h2>
     <Form v-if="problem" :label-width="100">
       <FormItem label="Title">
         <Input v-model="problem.title" placeholder="Please input problem title" />
@@ -22,12 +23,16 @@
       <FormItem label="Description">
         <markdown-editor v-model="problem.description"></markdown-editor>
       </FormItem>
+      <FormItem>
+        <Button type="primary" @click="handleSubmit">Submit</Button>
+      </FormItem>
     </Form>
   </div>
 </template>
 
 <script>
-import * as filterUtil from '../../utils/filter'
+import * as filterUtil from '@/utils/filter'
+import * as problemApi from '@/apis/problem'
 import MarkdownEditor from '@/components/markdown-editor/MarkdownEditor'
 
 export default {
@@ -39,7 +44,7 @@ export default {
       problem: {
         timeLimit: 1000,
         memoryLimit: 32768,
-        description: '\n\n# Input\n\n # Output'
+        description: '\n# Input\n\n # Output'
       }
     }
   },
@@ -51,6 +56,14 @@ export default {
   methods: {
     formatLimit(num) {
       return filterUtil.toThousands(num)
+    },
+    handleSubmit() {
+      console.log(this.problem)
+      problemApi.createProblem(this.problem).then(response => {
+        if (response && response.status === 200) {
+          console.log('problem has been created', response.data)
+        }
+      })
     }
   }
 }
@@ -59,5 +72,10 @@ export default {
 <style lang="scss" scoped>
 .problem_wrapper {
   padding: 20px 10%;
+  h2 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
 }
 </style>

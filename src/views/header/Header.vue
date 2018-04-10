@@ -29,15 +29,48 @@
             Language M
           </router-link>
         </li>
+        <li>
+          <router-link tag="a" to="/bulletins">
+            Bulletin M
+          </router-link>
+        </li>
       </ul>
+      <div v-if="!isLogined">
+        <Button class="sign_in_button" type="success" @click="loginVisiable = true">Sign In</Button>
+        <login v-model="loginVisiable"></login>
+      </div>
+      <div class="avatar" v-else>
+        <Dropdown>
+          <a href="javascript:void(0)">
+            {{username}}
+            <Icon type="arrow-down-b"></Icon>
+          </a>
+          <DropdownMenu slot="list">
+            <DropdownItem>Personal Center</DropdownItem>
+            <DropdownItem divided>Logout</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+        <Avatar icon="person" size="large" />
+      </div>
     </nav>
   </div>
 </template>
 
 <script>
+import Login from '@/views/auth/Login'
+import { mapGetters } from 'vuex'
+
 export default {
+  components: {
+    Login
+  },
   data() {
-    return {}
+    return {
+      loginVisiable: false
+    }
+  },
+  computed: {
+    ...mapGetters(['isLogined', 'username'])
   }
 }
 </script>
@@ -86,6 +119,25 @@ nav {
         }
       }
     }
+  }
+}
+
+.sign_in_button {
+  position: relative;
+  margin: 0 10px;
+  float: right;
+}
+
+.avatar {
+  float: right;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.ivu-dropdown {
+  ul,
+  li {
+    display: block;
   }
 }
 </style>
