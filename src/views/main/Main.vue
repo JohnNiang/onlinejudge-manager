@@ -9,7 +9,11 @@
             Problem
           </template>
           <MenuItem name="1-1">Check</MenuItem>
-          <MenuItem name="1-2">Create</MenuItem>
+          <MenuItem name="1-2">
+          <router-link tag="a" to="/problems/create">
+            Create
+          </router-link>
+          </MenuItem>
         </Submenu>
         <Submenu name="2">
           <template slot="title">
@@ -17,7 +21,11 @@
             Contest
           </template>
           <MenuItem name="2-1">Check</MenuItem>
-          <MenuItem name="2-2">Create</MenuItem>
+          <MenuItem name="2-2">
+          <router-link tag="a" to="/contests/create">
+            Create
+          </router-link>
+          </MenuItem>
         </Submenu>
         <Submenu name="3">
           <template slot="title">
@@ -62,16 +70,14 @@
           </Row>
         </div>
       </Header>
-      <Content :style="{padding: '16px'} ">
-        <Card>
-          <div>
-            <transition name="fade" mode="out-in" appear>
-              <keep-alive>
-                <router-view></router-view>
-              </keep-alive>
-            </transition>
-          </div>
-        </Card>
+      <Content :style="{height: '100%'}">
+        <div>
+          <transition name="fade" mode="out-in" appear>
+            <keep-alive>
+              <router-view></router-view>
+            </keep-alive>
+          </transition>
+        </div>
       </Content>
     </Layout>
   </div>
@@ -162,5 +168,9 @@ export default {
     text-overflow: ellipsis;
     text-align: right;
   }
+}
+
+.ivu-menu-item a {
+  display: block;
 }
 </style>
