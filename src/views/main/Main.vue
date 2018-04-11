@@ -44,7 +44,12 @@
             <Icon type="ios-analytics"></Icon>
             Language
           </template>
-          <MenuItem name="4-1">Check</MenuItem>
+          <MenuItem name="4-1">
+          <router-link tag="a" to="/languages/check">
+            Check
+          </router-link>
+          </MenuItem>
+
         </Submenu>
         <Submenu name="5">
           <template slot="title">

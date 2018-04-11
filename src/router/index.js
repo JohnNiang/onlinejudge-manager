@@ -9,6 +9,8 @@ const ContestCreate = resolve =>
   require(['@/views/contest/ContestCreate'], resolve)
 const BulletinCreate = resolve =>
   require(['@/views/bulletin/BulletinCreate'], resolve)
+const LanguageCheck = resolve =>
+  require(['@/views/language/LanguageCheck'], resolve)
 const Login = resolve => require(['@/views/auth/Login'], resolve)
 
 Vue.use(Router)
@@ -39,6 +41,11 @@ export default new Router({
           path: 'bulletins/create',
           name: 'bulletin_create',
           component: BulletinCreate
+        },
+        {
+          path: 'languages/check',
+          name: 'language_check',
+          component: LanguageCheck
         }
       ]
     },
