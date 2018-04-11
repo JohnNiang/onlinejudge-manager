@@ -142,9 +142,6 @@ export default {
     margin-top: 20px;
     margin-bottom: 20px;
   }
-  .error_span {
-    color: red;
-  }
 }
 
 .short_input {

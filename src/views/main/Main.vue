@@ -70,6 +70,7 @@
           </Row>
         </div>
       </Header>
+      <Alert class="error_alert" type="error" show-icon closable v-if="globalError">{{globalError}}</Alert>
       <Content :style="{height: '100%'}">
         <div>
           <transition name="fade" mode="out-in" appear>
@@ -98,7 +99,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentPath', 'username'])
+    ...mapGetters(['currentPath', 'username', 'globalError'])
   },
   methods: {
     handleClickUserDropdown(name) {
@@ -172,5 +173,9 @@ export default {
 
 .ivu-menu-item a {
   display: block;
+}
+
+.error_alert {
+  margin: 10px;
 }
 </style>
