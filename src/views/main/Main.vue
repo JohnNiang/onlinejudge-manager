@@ -33,7 +33,11 @@
             Bulletin
           </template>
           <MenuItem name="3-1">Check</MenuItem>
-          <MenuItem name="3-2">Create</MenuItem>
+          <MenuItem name="3-2">
+          <router-link tag="a" to="/bulletins/create">
+            Create
+          </router-link>
+          </MenuItem>
         </Submenu>
         <Submenu name="4">
           <template slot="title">

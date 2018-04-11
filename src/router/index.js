@@ -7,6 +7,8 @@ const ProblemCreate = resolve =>
   require(['@/views/problem/ProblemCreate'], resolve)
 const ContestCreate = resolve =>
   require(['@/views/contest/ContestCreate'], resolve)
+const BulletinCreate = resolve =>
+  require(['@/views/bulletin/BulletinCreate'], resolve)
 const Login = resolve => require(['@/views/auth/Login'], resolve)
 
 Vue.use(Router)
@@ -29,9 +31,14 @@ export default new Router({
           component: ProblemCreate
         },
         {
-          path: '/contests/create',
+          path: 'contests/create',
           name: 'contest_create',
           component: ContestCreate
+        },
+        {
+          path: 'bulletins/create',
+          name: 'bulletin_create',
+          component: BulletinCreate
         }
       ]
     },
