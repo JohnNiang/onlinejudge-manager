@@ -1,10 +1,4 @@
 <template>
-  <!-- <my-header></my-header>
-    <main>
-      <error-alert></error-alert>
-      <router-view/>
-    </main>
-    <my-footer></my-footer> -->
   <div class="layout">
     <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
       <div class="logo">CJ OJ Manager</div>
@@ -51,11 +45,32 @@
     </Sider>
     <Layout :style=" {marginLeft: '200px'} ">
       <Header :style="{background: '#fff', boxShadow: '0 2px 3px 2px rgba(0,0,0,.1)'} ">
-      </Header>
-      <Content :style="{padding: '0 16px 16px'} ">
         <my-breadcrumb :currentPath="currentPath"></my-breadcrumb>
+        <div class="header-avator">
+          <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
+            <Dropdown transfer trigger="click" @on-click="handleClickUserDropdown">
+              <a href="javascript:void(0)">
+                <span class="main-user-name">{{ username }}</span>
+                <Icon type="arrow-down-b"></Icon>
+              </a>
+              <DropdownMenu slot="list">
+                <DropdownItem name="center">Center</DropdownItem>
+                <DropdownItem name="signout" divided>Logout</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+            <Avatar :src="avatarPath" style="background: #619fe7;margin-left: 10px;"></Avatar>
+          </Row>
+        </div>
+      </Header>
+      <Content :style="{padding: '16px'} ">
         <Card>
-          <div style="height: 600px ">Content</div>
+          <div>
+            <transition name="fade" mode="out-in" appear>
+              <keep-alive>
+                <router-view></router-view>
+              </keep-alive>
+            </transition>
+          </div>
         </Card>
       </Content>
     </Layout>
@@ -71,14 +86,33 @@ export default {
     MyBreadcrumb
   },
   data() {
-    return {}
+    return {
+      avatarPath:
+        'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg'
+    }
   },
   computed: {
-    ...mapGetters(['currentPath'])
+    ...mapGetters(['currentPath', 'username'])
+  },
+  methods: {
+    handleClickUserDropdown(name) {
+      if (name === 'center') {
+        this.$router.push({
+          name: 'user_center'
+        })
+      } else if (name === 'signout') {
+        // todo clear authentication
+        this.$router.push({
+          name: 'login'
+        })
+      }
+    }
   }
 }
 </script>
+
 <style lang="scss" scoped>
+@import '../../styles/base/variable';
 .layout {
   border: 1px solid #d7dde4;
   background: #f5f7f9;
@@ -91,8 +125,12 @@ export default {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
-.ivu-layout-sider-children {
-  background: white;
+.ivu-layout-sider {
+  background: $white-color;
+}
+
+.ivu-layout-header {
+  padding: 0 10px;
 }
 
 .logo {
@@ -104,5 +142,25 @@ export default {
   color: white;
   font-size: 20px;
   font-weight: bold;
+}
+
+.header-avator {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  height: 100%;
+  width: 150px;
+  .main-user-name {
+    color: $success-color;
+    font-size: 12px;
+    display: inline-block;
+    width: 80px;
+    word-break: keep-all;
+    white-space: nowrap;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+  }
 }
 </style>

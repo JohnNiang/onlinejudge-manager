@@ -20,6 +20,6 @@ export default {
 
 <style lang="scss" scoped>
 .ivu-breadcrumb {
-  margin: 16px 0;
+  margin: 0 10px;
 }
 </style>
