@@ -64,10 +64,23 @@ export default {
   data() {
     return {
       languageToAdd: {},
+      languageList: [],
       error: null
     }
   },
+  mounted() {
+    this.getLangauges()
+  },
   methods: {
+    getLangauges() {
+      languageApi.getLanguages().then(response => {
+        if (response) {
+          if (response.status === 200) {
+            this.languageList = response.data
+          }
+        }
+      })
+    },
     handleLanguageCreate() {
       // pre check
 

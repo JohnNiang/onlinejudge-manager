@@ -9,3 +9,10 @@ export function createLanguage(language) {
     method: 'post'
   })
 }
+
+export function getLanguages() {
+  return service({
+    url: baseUrl,
+    method: 'get'
+  })
+}
