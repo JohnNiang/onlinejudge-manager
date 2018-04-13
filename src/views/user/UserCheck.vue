@@ -1,10 +1,34 @@
 <template>
   <div>
     <Row>
+      <Col span="18">
       <Card>
-        <Table :columns="userColumns" :data="userData"></Table>
+        <p slot="title" class="center">
+          <Icon type="ios-people" :size="20"></Icon>
+          User detail
+        </p>
+        <Table :columns="userColumns" :data="userData" @on-sort-change="handleSortChange"></Table>
         <Page show-total class-name="user_pagination" :total="pagination.total" :current="pagination.page" :page-size="pagination.rpp" show-sizer placement="top" @on-change="handleCurrentPageChange" @on-page-size-change="handlePageSizeChange"></Page>
       </Card>
+      </Col>
+      <Col span="6">
+      <Card>
+        <p slot="title">
+          <Icon type="android-search"></Icon>
+          Action
+        </p>
+        <Form inline>
+          <FormItem>
+            <Input type="text" placeholder="Please input user id">
+              <Icon type="android-search" slot="prepend"></Icon>
+            </Input>
+          </FormItem>
+          <FormItem>
+            <Button type="primary" icon="android-search">Search</Button>
+          </FormItem>
+        </Form>
+      </Card>
+      </Col>
     </Row>
   </div>
 </template>
@@ -85,6 +109,7 @@ export default {
         {
           title: 'Created',
           key: 'createTime',
+          sortable: 'custom',
           render: (h, params) => {
             return h('span', util.timeAgo(params.row.createTime) + ' ago')
           }
@@ -104,18 +129,7 @@ export default {
           }
         }
       ],
-      userData: [
-        {
-          avatar: 'string',
-          createTime: '2018-04-13T08:43:58.213Z',
-          expiredTime: '2018-04-13T08:43:58.213Z',
-          password: 'string',
-          updateTime: '2018-04-13T08:43:58.213Z',
-          userId: 0,
-          userType: 0,
-          username: 'string'
-        }
-      ],
+      userData: [],
       pagination: {
         page: 1,
         rpp: 20,
@@ -132,7 +146,7 @@ export default {
         .getUsers(
           this.pagination.page,
           this.pagination.rpp,
-          this.pagination.total
+          this.pagination.sort
         )
         .then(response => {
           if (response) {
@@ -144,6 +158,12 @@ export default {
             }
           }
         })
+    },
+    handleSortChange(column) {
+      if (column.order !== 'normal') {
+        this.pagination.sort = `${column.key},${column.order}`
+        this.getUsers()
+      }
     },
     handleCurrentPageChange(current) {
       this.pagination.page = current

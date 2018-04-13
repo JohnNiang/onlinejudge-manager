@@ -3,7 +3,7 @@
     <Row>
       <Col span="18">
       <Card>
-        <p slot="title">
+        <p slot="title" class="center">
           <Icon type="android-create"></Icon>
           Contest Create
         </p>

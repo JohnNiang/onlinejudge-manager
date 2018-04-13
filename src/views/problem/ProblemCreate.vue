@@ -3,7 +3,7 @@
     <Row>
       <Col span="18">
       <Card>
-        <p slot="title">
+        <p slot="title" class="center">
           <Icon type="android-create"></Icon>
           Problem Create</p>
         <Form v-if="problem" :label-width="100">

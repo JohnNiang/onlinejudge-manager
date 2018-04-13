@@ -29,7 +29,7 @@
         </Submenu>
         <Submenu name="3">
           <template slot="title">
-            <Icon type="ios-analytics"></Icon>
+            <Icon type="speakerphone"></Icon>
             Bulletin
           </template>
           <MenuItem name="3-1">Check</MenuItem>
