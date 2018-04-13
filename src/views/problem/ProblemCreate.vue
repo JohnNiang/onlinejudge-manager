@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="problem_wrapper">
     <Row>
       <Col span="18">
@@ -14,8 +14,29 @@
           <FormItem label="Description">
             <markdown-editor v-model="problem.description"></markdown-editor>
           </FormItem>
-          <FormItem label="Standard data">
-            <file-upload v-model="fileArr"></file-upload>
+          <FormItem label="Data file">
+            <file-upload v-model="files"></file-upload>
+          </FormItem>
+          <FormItem label="Data group">
+            <Col span="4"> Index
+            </Col>
+            <Col span="8"> Input file name
+            </Col>
+            <Col span="8"> Output file name
+            </Col>
+            <Col span="4"> Weight(1-100)
+            </Col>
+            <div v-for="(classifiedFile, index) in classifiedFiles" :key="index">
+              <Col span="4"> {{index + 1}}
+              </Col>
+              <Col span="8"> {{classifiedFile.inputFileName}}
+              </Col>
+              <Col span="8"> {{classifiedFile.outputFileName}}
+              </Col>
+              <Col span="4">
+              <my-slider :index="classifiedFile.index" v-model="classifiedFile.weight" @on-change="handleSliderChange"></my-slider>
+              </Col>
+            </div>
           </FormItem>
         </Form>
       </Card>
@@ -44,6 +65,7 @@
             <span>default: general</span>
           </FormItem>
           <FormItem>
+            <span class="error_span" v-if="error && typeof error === 'string'">{{error}}</span>
             <Button type="success" icon="android-send" @click="handleSubmit">Publish</Button>
             <Button type="dashed">Draft</Button>
           </FormItem>
@@ -83,12 +105,14 @@
 import * as filterUtil from '@/utils/filter'
 import * as problemApi from '@/apis/problem'
 import MarkdownEditor from '@/components/markdown-editor/MarkdownEditor'
+import MySlider from '@/components/slider/MySlider'
 import FileUpload from '@/components/file-upload/FileUpload'
 
 export default {
   components: {
     MarkdownEditor,
-    FileUpload
+    FileUpload,
+    MySlider
   },
   data() {
     return {
@@ -98,19 +122,52 @@ export default {
         type: 0,
         description: '\n# Input\n\n # Output'
       },
+      problemCreated: {},
       error: null,
-      fileArr: []
+      inputFiles: [],
+      outputFiles: [],
+      files: [],
+      weights: []
     }
   },
   computed: {
-    sortFileArr() {
-      return this.fileArr
+    classifiedFiles() {
+      const inputPrefix = 'input'
+      const outputPrefix = 'output'
+      const classifiedFiles = []
+      this.files.forEach(file => {
+        let filename = file.name
+        let index = null
+        if (filename.startsWith(inputPrefix)) {
+          // input file
+          index = Number(
+            filename.split('.', 1)[0].substring(inputPrefix.length)
+          )
+          if (typeof classifiedFiles[index] === 'undefined') {
+            classifiedFiles[index] = {}
+          }
+          classifiedFiles[index].inputFileName = filename
+        } else if (filename.startsWith(outputPrefix)) {
+          // output file
+          index = Number(
+            filename.split('.', 1)[0].substring(outputPrefix.length)
+          )
+          if (typeof classifiedFiles[index] === 'undefined') {
+            classifiedFiles[index] = {}
+          }
+          classifiedFiles[index].outputFileName = filename
+        }
+        classifiedFiles[index].index = index
+        if (typeof this.weights[index] !== 'undefined') {
+          classifiedFiles[index].weight = this.weights[index]
+        } else {
+          classifiedFiles[index].weight = 0
+        }
+      })
+      return classifiedFiles.filter(item => {
+        return item !== undefined && item.inputFileName && item.outputFileName
+      })
     }
-  },
-  mounted() {
-    setInterval(() => {
-      this.source = new Date().toLocaleTimeString()
-    }, 1000)
   },
   methods: {
     formatLimit(num) {
@@ -121,15 +178,42 @@ export default {
       problemApi.createProblem(this.problem).then(response => {
         if (response) {
           if (response.status === 200) {
-            console.log('problem has been created', response.data)
+            this.problemCreated = response.data
+            this.uploadFiles()
             this.$Notice.success({
               title: 'Problem has been created successfully'
             })
           } else if (response.status === 400) {
             this.error = response.data.data
+            if (typeof this.error === 'string') {
+              this.error = response.data.message
+            }
           }
         }
       })
+    },
+    uploadFiles() {
+      // todo pre check files
+      const data = new FormData()
+      data.append('datas', JSON.stringify(this.classifiedFiles))
+      this.files.forEach(file => {
+        data.append('files', file, file.name)
+      })
+      problemApi.uploadFiles(
+        this.problemCreated.problemId,
+        data,
+        progressEvent => {
+          // on upload progress
+          let percentCompleted = Math.round(
+            progressEvent.loaded * 100 / progressEvent.total
+          )
+          console.log(percentCompleted)
+        }
+      )
+    },
+    handleSliderChange(value, index) {
+      // recode my weight
+      this.weights[index] = value
     }
   }
 }

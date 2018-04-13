@@ -9,3 +9,12 @@ export function createProblem(problem) {
     method: 'post'
   })
 }
+
+export function uploadFiles(problemId, formData, uploadProgress) {
+  return service({
+    url: `${baseUrl}/${problemId}/datas/upload`,
+    data: formData,
+    method: 'post',
+    onUploadProgress: uploadProgress
+  })
+}

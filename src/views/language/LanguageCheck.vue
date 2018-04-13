@@ -7,51 +7,11 @@
           <Icon type="android-list"></Icon>
           Language list
         </p>
+        <Table stripe :columns="languageColumn" :data="languageList"></Table>
       </Card>
       </Col>
       <Col span="8">
-      <Card>
-        <p slot="title">
-          <Icon type="android-add"></Icon>
-          Create
-        </p>
-        <Form :label-width="110">
-          <Form-item label="language name">
-            <Input type="text" v-model="languageToAdd.name"></Input>
-            <span class="error_span" v-if="error && error.name">{{error.name}}</span>
-          </Form-item>
-          <Form-item label="compile cmmand">
-            <Input type="text" v-model="languageToAdd.compileCmd"></Input>
-            <span class="error_span" v-if="error && error.compileCmd">{{error.compileCmd}}</span>
-          </Form-item>
-          <Form-item label="execute cmmand">
-            <Input type="text" v-model="languageToAdd.executeCmd"></Input>
-            <span class="error_span" v-if="error && error.executeCmd">{{error.executeCmd}}</span>
-          </Form-item>
-          <Form-item label="source extension">
-            <Input type="text" v-model="languageToAdd.sourceExt"></Input>
-            <span class="error_span" v-if="error && error.sourceExt">{{error.sourceExt}}</span>
-          </Form-item>
-          <Form-item label="excute extension">
-            <Input type="text" v-model="languageToAdd.executeExt"></Input>
-            <span class="error_span" v-if="error && error.executeExt">{{error.executeExt}}</span>
-          </Form-item>
-          <Form-item label="operator">
-            <Select v-model="languageToAdd.operator" style="width:200px">
-              <Option value="0">Windows</Option>
-              <Option value="1">Unix</Option>
-              <Option value="2">Both of them</Option>
-            </Select>
-            <span>default: Unix</span>
-            <span class="error_span" v-if="error && error.operator">{{error.operator}}</span>
-          </Form-item>
-          <Form-item>
-            <span class="error_span" v-if="error && typeof error === 'string'">{{error}}</span>
-            <Button type="success" icon="android-send" @click="handleLanguageCreate">Create</Button>
-            <Button icon="android-refresh">Reset</Button>
-          </Form-item>
-        </Form>
-      </Card>
+      <language-action :stageLanguage="languageToDo" :action="action" @on-action-success="handleActionSuccess" @on-cancel="handleCancel" @on-reset="handleReset"></language-action>
       </Col>
     </Row>
   </div>
@@ -59,34 +19,255 @@
 
 <script>
 import * as languageApi from '@/apis/language'
+import LanguageAction from './LanguageAction'
 
 export default {
+  components: {
+    LanguageAction
+  },
   data() {
     return {
-      languageToAdd: {},
-      error: null
+      operators: [
+        {
+          value: 0,
+          label: 'Windows'
+        },
+        {
+          value: 1,
+          label: 'Unix'
+        },
+        {
+          value: 2,
+          label: 'Both'
+        }
+      ],
+      languageColumn: [
+        {
+          title: '#',
+          key: 'languageId',
+          width: 50
+        },
+        {
+          title: 'name',
+          key: 'name'
+        },
+        {
+          title: 'compile cmmand',
+          key: 'compileCmd'
+        },
+        {
+          title: 'execute command',
+          key: 'executeCmd'
+        },
+        {
+          title: 'source extension',
+          key: 'sourceExt'
+        },
+        {
+          title: 'execute extension',
+          key: 'executeExt'
+        },
+        {
+          title: 'operator(win/unix)',
+          key: 'operator',
+          width: 80,
+          render: (h, params) => {
+            const operators = ['Both', 'Unix', 'Windows']
+            return h('span', operators[params.row.operator])
+          }
+        },
+        {
+          title: 'status',
+          key: 'status',
+          width: 140,
+          render: (h, params) => {
+            let statusTag = null
+            let statusTagColor = null
+            if (params.row.status === 0) {
+              statusTag = 'available'
+              statusTagColor = 'green'
+            } else {
+              statusTag = 'testing'
+              statusTagColor = 'yellow'
+            }
+            return h(
+              'Tag',
+              {
+                props: {
+                  color: statusTagColor,
+                  type: 'dot'
+                }
+              },
+              statusTag
+            )
+          }
+        },
+        {
+          title: 'action',
+          key: 'action',
+          align: 'center',
+          width: 210,
+          render: (h, params) => {
+            let type = null
+            let text = null
+            if (params.row.status === 0) {
+              // available
+              type = 'primary'
+              text = 'disable'
+            } else {
+              // testing
+              type = 'success'
+              text = 'enable'
+            }
+            return h('div', [
+              h(
+                'Button',
+                {
+                  props: {
+                    type: type,
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.handleStatusChange(params.row)
+                    }
+                  }
+                },
+                text
+              ),
+              h(
+                'Button',
+                {
+                  props: {
+                    type: 'warning',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.handleModifyLanguageClick(params.index)
+                    }
+                  }
+                },
+                'modify'
+              ),
+              h(
+                'Button',
+                {
+                  props: {
+                    type: 'error',
+                    size: 'small'
+                  },
+                  on: {
+                    click: () => {
+                      this.handleDeleteLanguage(params.index)
+                    }
+                  }
+                },
+                'delete'
+              )
+            ])
+          }
+        }
+      ],
+      languageToDo: {
+        operator: 1
+      },
+      languageList: [],
+      error: null,
+      action: 'create'
     }
   },
+  mounted() {
+    this.getLangauges()
+  },
   methods: {
-    handleLanguageCreate() {
-      // pre check
-
-      // create it
-      this.error = null
-      languageApi.createLanguage(this.languageToAdd).then(response => {
+    getLangauges() {
+      languageApi.getLanguages().then(response => {
         if (response) {
           if (response.status === 200) {
-            this.$Notice.success({
-              title: 'Language creates successfully'
-            })
-          } else if (response.status === 400) {
-            this.error = response.data.data
-            if (typeof this.error === 'string') {
-              this.error = response.data.message
-            }
+            this.languageList = response.data
           }
         }
       })
+    },
+    handleModifyLanguageClick(index) {
+      this.languageToDo = this.languageList[index]
+      this.action = 'modify'
+    },
+    handleDeleteLanguage(index) {
+      console.log(index)
+      // delete it via api
+      console.log(this.languageList[index])
+      languageApi
+        .deleteLanguage(this.languageList[index].languageId)
+        .then(response => {
+          if (response) {
+            if (response.status === 200) {
+              this.$Notice.success({
+                title: 'Delete successfully'
+              })
+              this.languageList.splice(index, 1)
+            } else {
+              this.$Notice.error({
+                title: 'Failed to delete it'
+              })
+            }
+          }
+        })
+    },
+    handleActionSuccess(action) {
+      this.getLangauges()
+      this.action = 'create'
+    },
+    handleCancel() {
+      this.action = 'create'
+      this.handleReset()
+    },
+    handleReset() {
+      this.languageToDo = {
+        operator: 1
+      }
+    },
+    handleStatusChange(language) {
+      if (language.status === 0) {
+        // disable it
+        languageApi.diableLanguage(language.languageId).then(response => {
+          if (response) {
+            if (response.status === 200) {
+              this.$Notice.success({
+                title: 'The language is disabled successfully'
+              })
+              this.getLangauges()
+            } else {
+              this.$Notice.error({
+                title: 'Failed to disable the language'
+              })
+            }
+          }
+        })
+      } else {
+        // enable it
+        languageApi.enableLanguage(language.languageId).then(response => {
+          if (response) {
+            if (response.status === 200) {
+              this.$Notice.success({
+                title: 'The language is enabled successfully'
+              })
+              this.getLangauges()
+            } else {
+              this.$Notice.error({
+                title: 'Failed to enabled the language'
+              })
+            }
+          }
+        })
+      }
     }
   }
 }
