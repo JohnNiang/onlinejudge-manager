@@ -11,6 +11,7 @@ const BulletinCreate = resolve =>
   require(['@/views/bulletin/BulletinCreate'], resolve)
 const LanguageCheck = resolve =>
   require(['@/views/language/LanguageCheck'], resolve)
+const UserCheck = resolve => require(['@/views/user/UserCheck'], resolve)
 const Login = resolve => require(['@/views/auth/Login'], resolve)
 
 Vue.use(Router)
@@ -46,6 +47,11 @@ export default new Router({
           path: 'languages/check',
           name: 'language_check',
           component: LanguageCheck
+        },
+        {
+          path: 'users/check',
+          name: 'user_check',
+          component: UserCheck
         }
       ]
     },

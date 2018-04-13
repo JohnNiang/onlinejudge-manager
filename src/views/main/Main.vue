@@ -53,10 +53,14 @@
         </Submenu>
         <Submenu name="5">
           <template slot="title">
-            <Icon type="ios-analytics"></Icon>
+            <Icon type="person"></Icon>
             User
           </template>
-          <MenuItem name="5-1">Check</MenuItem>
+          <MenuItem name="5-1">
+          <router-link tag="a" to="/users/check">
+            Check
+          </router-link>
+          </MenuItem>
         </Submenu>
       </Menu>
     </Sider>

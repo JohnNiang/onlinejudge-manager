@@ -199,17 +199,27 @@ export default {
       this.files.forEach(file => {
         data.append('files', file, file.name)
       })
-      problemApi.uploadFiles(
-        this.problemCreated.problemId,
-        data,
-        progressEvent => {
+      problemApi
+        .uploadFiles(this.problemCreated.problemId, data, progressEvent => {
           // on upload progress
           let percentCompleted = Math.round(
             progressEvent.loaded * 100 / progressEvent.total
           )
           console.log(percentCompleted)
-        }
-      )
+        })
+        .then(response => {
+          if (response) {
+            if (response.status === 200) {
+              this.$Notice.success({
+                title: 'Files are uploaded successfully'
+              })
+            } else {
+              this.$Notice.error({
+                title: 'Failed to upload files'
+              })
+            }
+          }
+        })
     },
     handleSliderChange(value, index) {
       // recode my weight

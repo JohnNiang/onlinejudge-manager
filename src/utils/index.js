@@ -1,4 +1,10 @@
+import * as filter from './filter'
+
 const util = {}
+
+Object.keys(filter).forEach(key => {
+  util[key] = filter[key]
+})
 
 util.getFilename = filename => {
   // get dot index
