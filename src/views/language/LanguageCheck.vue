@@ -3,7 +3,7 @@
     <Row>
       <Col span="16">
       <Card>
-        <p slot="title">
+        <p slot="title" class="center">
           <Icon type="android-list"></Icon>
           Language list
         </p>
@@ -224,6 +224,7 @@ export default {
     handleActionSuccess(action) {
       this.getLangauges()
       this.action = 'create'
+      this.handleReset()
     },
     handleCancel() {
       this.action = 'create'

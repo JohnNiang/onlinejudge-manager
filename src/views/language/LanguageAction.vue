@@ -98,6 +98,11 @@ export default {
       return Object.assign({}, this.stageLanguage)
     }
   },
+  watch: {
+    action: function(newAction, oldAction) {
+      this.error = null
+    }
+  },
   methods: {
     handleLanguageCreate() {
       // TODO pre check
@@ -123,7 +128,7 @@ export default {
     handleLanguageModify() {
       this.error = null
       languageApi
-        .updateLanguage(this.language.langaugeId, this.language)
+        .updateLanguage(this.language.languageId, this.language)
         .then(response => {
           if (response) {
             if (response.status === 200) {
