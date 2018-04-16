@@ -1,6 +1,15 @@
 <template>
   <div>
-    <h1>Index</h1>
+    <Row>
+      <Col span="8">
+      <Card>
+      </Card>
+      </Col>
+      <Col span="16">
+      <Card>
+      </Card>
+      </Col>
+    </Row>
   </div>
 </template>
 
@@ -13,5 +22,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.ivu-card {
+  margin: 10px;
+}
 </style>

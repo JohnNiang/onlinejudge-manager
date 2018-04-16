@@ -1,7 +1,11 @@
 <template>
   <div class="layout">
     <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
-      <div class="logo">CJ OJ Manager</div>
+      <div class="logo">
+        <router-link to="/">
+          CJ OJ Manager
+        </router-link>
+      </div>
       <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
         <Submenu name="1">
           <template slot="title">
@@ -157,7 +161,7 @@ export default {
   text-align: center;
   margin: 10px;
   padding: 5px;
-  background: green;
+  background: $success-color;
   border-radius: 5px;
   color: white;
   font-size: 20px;
