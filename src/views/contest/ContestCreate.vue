@@ -33,8 +33,7 @@
           </FormItem>
           <FormItem label="type">
             <Select v-model="contest.type" class="short_input">
-              <Option value="0">single-player</Option>
-              <Option value="1">multi-player</Option>
+              <Option v-for="type in contestTypes" :value="type.value" :key="type.value">{{type.label}}</Option>
             </Select>
             <span>default: single player</span>
           </FormItem>
@@ -73,6 +72,16 @@ export default {
   },
   data() {
     return {
+      contestTypes: [
+        {
+          value: 0,
+          label: 'Single player'
+        },
+        {
+          value: 1,
+          label: 'Multi player'
+        }
+      ],
       contest: {
         type: 0,
         description: '',

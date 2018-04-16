@@ -58,9 +58,7 @@
           </FormItem>
           <FormItem label="Type">
             <Select v-model="problem.type" class="short_input">
-              <Option value="0">General problem</Option>
-              <Option value="1">Contest problem</Option>
-              <Option value="2">Assignment problem</Option>
+              <Option v-for="type in types" :value="type.value" :key="type.value">{{type.label}}</Option>
             </Select>
             <span>default: general</span>
           </FormItem>
@@ -116,6 +114,20 @@ export default {
   },
   data() {
     return {
+      types: [
+        {
+          value: 0,
+          label: 'General problem'
+        },
+        {
+          value: 1,
+          label: 'Contest problem'
+        },
+        {
+          value: 2,
+          label: 'Assignment problem'
+        }
+      ],
       problem: {
         timeLimit: 1000,
         memoryLimit: 32768,
