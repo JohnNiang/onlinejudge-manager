@@ -89,7 +89,8 @@
 
 <script>
 import Login from '@/views/auth/Login'
-import { mapGetters } from 'vuex'
+import * as type from '@/store/mutation-type'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   components: {
@@ -110,9 +111,10 @@ export default {
         // todo
       } else if (name === 'logout') {
         // todo clear the token
-        this.$router.push({
-          name: 'login'
-        })
+        console.log('cleared the token')
+        // this.$router.push({
+        //   name: 'login'
+        // })
       }
     }
   }

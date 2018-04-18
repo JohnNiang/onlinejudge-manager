@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+// import store from '../store'
 
 const Main = resolve => require(['@/views/main/Main'], resolve)
 const Index = resolve => require(['@/views/index/Index'], resolve)
@@ -16,7 +17,7 @@ const Login = resolve => require(['@/views/auth/Login'], resolve)
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -62,3 +63,5 @@ export default new Router({
     }
   ]
 })
+
+export default router

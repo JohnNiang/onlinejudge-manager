@@ -103,7 +103,9 @@
 
 <script>
 import MyBreadcrumb from '../../components/breadcrumb/MyBreadcrumb'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
+import * as type from '@/store/mutation-type'
+
 export default {
   name: 'App',
   components: {
@@ -119,13 +121,17 @@ export default {
     ...mapGetters(['currentPath', 'username', 'globalError'])
   },
   methods: {
+    ...mapMutations({
+      clearToken: type.CLEAR_TOKEN
+    }),
     handleClickUserDropdown(name) {
       if (name === 'center') {
         this.$router.push({
           name: 'user_center'
         })
       } else if (name === 'signout') {
-        // todo clear authentication
+        // clear authentication
+        this.clearToken()
         this.$router.push({
           name: 'login'
         })

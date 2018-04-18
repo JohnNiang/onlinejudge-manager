@@ -82,6 +82,7 @@ export default {
                   this.$router.push({
                     name: 'home'
                   })
+                  console.log('go into the index page')
                 } else {
                   this.error = 'username or password is incorrect'
                 }
