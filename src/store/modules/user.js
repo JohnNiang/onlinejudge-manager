@@ -30,7 +30,6 @@ const mutations = {
   },
   [type.SET_TOKEN](state, token) {
     store.authResult = Object.assign({}, token)
-    console.log('set token', store.authResult)
     localStorage.setItem(AUTH_RESULT, JSON.stringify(store.authResult))
   },
   [type.CLEAR_TOKEN](state) {

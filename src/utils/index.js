@@ -8,7 +8,7 @@ Object.keys(filter).forEach(key => {
 
 util.getFilename = filename => {
   // get dot index
-  const dtoIndex = filename.indexOf('.')
+  const dtoIndex = filename.lastIndexOf('.')
   return filename.split(dtoIndex, 1)
 }
 
