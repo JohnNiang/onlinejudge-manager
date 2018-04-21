@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import * as authApi from '../../apis/auth'
+import authApi from '../../apis/auth'
 import { mapMutations } from 'vuex'
 import * as type from '@/store/mutation-type'
 

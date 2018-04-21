@@ -75,7 +75,7 @@
           <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
             <Dropdown transfer trigger="click" @on-click="handleClickUserDropdown">
               <a href="javascript:void(0)">
-                <span class="main-user-name">{{ username }}</span>
+                <span class="main-user-name">{{ user.username }}</span>
                 <Icon type="arrow-down-b"></Icon>
               </a>
               <DropdownMenu slot="list">
@@ -118,7 +118,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentPath', 'username', 'globalError'])
+    ...mapGetters(['currentPath', 'user', 'globalError'])
   },
   methods: {
     ...mapMutations({

@@ -1,5 +1,5 @@
 import * as type from '../mutation-type'
-import * as auth from '../../apis/auth'
+import authApi from '../../apis/auth'
 import store from '..'
 
 const AUTH_RESULT = 'authResult'
@@ -15,7 +15,7 @@ const getters = {
   tokenType: state => (state.authResult ? state.authResult.token_type : null),
   refreshToken: state =>
     state.authResult ? state.authResult.refresh_token : null,
-  username: state => (state.authResult ? state.authResult.username : null),
+  user: state => (state.authResult ? state.authResult.user : null),
   globalError: state => state.globalError,
   isLogined: state =>
     state.authResult &&
@@ -29,8 +29,8 @@ const mutations = {
     state.globalError = errorMessage
   },
   [type.SET_TOKEN](state, token) {
-    store.authResult = Object.assign({}, token)
-    localStorage.setItem(AUTH_RESULT, JSON.stringify(store.authResult))
+    localStorage.setItem(AUTH_RESULT, JSON.stringify(token))
+    store.authResult = token
   },
   [type.CLEAR_TOKEN](state) {
     localStorage.removeItem(AUTH_RESULT)
@@ -40,7 +40,7 @@ const mutations = {
 
 const actions = {
   refresh({ commit }, { refreshToken }) {
-    auth.refreshToken(refreshToken).then(response => {
+    authApi.refreshToken(refreshToken).then(response => {
       if (response && response.status === 200) {
         commit(type.SET_TOKEN, response.data)
       } else {
