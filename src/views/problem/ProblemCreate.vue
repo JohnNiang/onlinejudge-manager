@@ -61,6 +61,9 @@
               <Option v-for="type in types" :value="type.value" :key="type.value">{{type.label}}</Option>
             </Select>
             <span>default: general</span>
+            <div>
+              <span v-if="error && error.type">{{error.type}}</span>
+            </div>
           </FormItem>
           <FormItem>
             <span class="error_span" v-if="error && typeof error === 'string'">{{error}}</span>
@@ -116,23 +119,23 @@ export default {
     return {
       types: [
         {
-          value: 0,
+          value: 'general',
           label: 'General problem'
         },
         {
-          value: 1,
+          value: 'contest',
           label: 'Contest problem'
         },
         {
-          value: 2,
+          value: 'assignment',
           label: 'Assignment problem'
         }
       ],
       problem: {
         timeLimit: 1000,
         memoryLimit: 32768,
-        type: 0,
-        description: '\n# Input\n\n # Output'
+        type: 'general',
+        description: '\n### Input\n\n ### Output'
       },
       problemCreated: {},
       error: null,

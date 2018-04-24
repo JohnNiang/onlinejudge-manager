@@ -18,10 +18,10 @@
           Action
         </p>
         <div class="action">
-          <Button type="info" long @click="handlePublishClick">Publish</Button>
+          <Button type="info" long @click="publishModal = true">Publish</Button>
         </div>
         <div class="action">
-          <Button type="error" long>Delete</Button>
+          <Button type="error" long @click="deleteModal = true">Delete</Button>
         </div>
         <div class="action">
           <Button type="warning" long>Translate Contest</Button>
@@ -29,6 +29,43 @@
       </Card>
       </Col>
     </Row>
+    <Modal v-model="publishModal" width="360">
+      <p slot="header" style="color:#46BFF6;text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>Publish confirmation</span>
+      </p>
+      <div v-if="publishingProblems.length > 0">
+        <Timeline pending>
+          <TimelineItem v-for="problem in publishingProblems" :key="problem.problemId">{{problem.title}}</TimelineItem>
+        </Timeline>
+        <p class="align-center">Will you publish them?</p>
+      </div>
+      <div v-else class="align-center">
+        they are publishing status now.
+      </div>
+      <div slot="footer">
+        <Button type="primary" :disabled="publishProblems.length === 0" size="large" long :loading="modal_loading" @click="handlePublishClick">Publish</Button>
+      </div>
+    </Modal>
+
+    <Modal v-model="deleteModal" width="360">
+      <p slot="header" style="color:red;text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>Publish confirmation</span>
+      </p>
+      <div v-if="deletingProblems.length > 0">
+         <Timeline pending>
+          <TimelineItem v-for="problem in deletingProblems" :key="problem.problemId">{{problem.title}}</TimelineItem>
+        </Timeline>
+        <p class="align-center">Will you delete them?</p>
+      </div>
+      <div v-else class="align-center">
+        they are deleted status now.
+      </div>
+      <div slot="footer">
+        <Button type="error" :disabled="deletingProblems.length === 0" size="large" long :loading="modal_loading" @click="handleDeleteClick">Delete</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -53,6 +90,11 @@ export default {
         {
           title: 'title',
           key: 'title'
+        },
+        {
+          title: 'type',
+          key: 'type',
+          width: 100
         },
         {
           title: 'create time',
@@ -81,12 +123,23 @@ export default {
       ],
       problems: [],
       selection: [],
+      publishModal: false,
+      deleteModal: false,
+      modal_loading: false,
       pagination: {
         page: 1,
         rpp: 10,
         total: 0,
         sort: 'updateTime,desc'
       }
+    }
+  },
+  computed: {
+    publishingProblems() {
+      return this.selection.filter(item => item.status !== 'publishing')
+    },
+    deletingProblems() {
+      return this.selection.filter(item => item.status !== 'deleted')
     }
   },
   mounted() {
@@ -104,8 +157,9 @@ export default {
       })
     },
     publishProblems() {
+      this.modal_loading = true
       const problemIds = []
-      this.selection.forEach(item => {
+      this.publishingProblems.forEach(item => {
         problemIds.push(item.problemId)
       })
       problemApi.publishProblems(problemIds).then(response => {
@@ -117,6 +171,7 @@ export default {
             this.getProblems()
           }
         }
+        this.modal_loading = false
       })
     },
     handleCurrentPageChange(current) {
@@ -135,6 +190,9 @@ export default {
     },
     handlePublishClick() {
       this.publishProblems()
+    },
+    handleDeleteClick() {
+      console.log('delete them')
     }
   }
 }
