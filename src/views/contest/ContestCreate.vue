@@ -64,7 +64,7 @@
 
 <script>
 import MarkdownEditor from '@/components/markdown-editor/MarkdownEditor'
-import * as contestApi from '@/apis/contest'
+import contestApi from '@/apis/contest'
 
 export default {
   components: {

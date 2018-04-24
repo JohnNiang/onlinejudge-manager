@@ -100,8 +100,8 @@
 </template>
 
 <script>
-import * as filterUtil from '@/utils/filter'
-import * as problemApi from '@/apis/problem'
+import util from '@/utils'
+import problemApi from '@/apis/problem'
 import MarkdownEditor from '@/components/markdown-editor/MarkdownEditor'
 import MySlider from '@/components/slider/MySlider'
 import FileUpload from '@/components/file-upload/FileUpload'
@@ -183,7 +183,7 @@ export default {
   },
   methods: {
     formatLimit(num) {
-      return filterUtil.toThousands(num)
+      return util.toThousands(num)
     },
     handleSubmit() {
       console.log(this.problem)

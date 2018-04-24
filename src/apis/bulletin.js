@@ -2,10 +2,14 @@ import service from '../utils/service'
 
 const baseUrl = '/api/v1/bulletins'
 
-export function createBulletin(bulletin) {
+const bulletinApi = {}
+
+bulletinApi.createBulletin = bulletin => {
   return service({
     url: baseUrl,
     data: bulletin,
     method: 'post'
   })
 }
+
+export default bulletinApi

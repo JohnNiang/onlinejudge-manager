@@ -20,7 +20,7 @@
         <Form inline>
           <FormItem>
             <Input type="text" placeholder="Please input user id">
-              <Icon type="android-search" slot="prepend"></Icon>
+            <Icon type="android-search" slot="prepend"></Icon>
             </Input>
           </FormItem>
           <FormItem>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import * as userApi from '@/apis/user'
+import userApi from '@/apis/user'
 import util from '@/utils'
 const types = [
   {
@@ -142,22 +142,16 @@ export default {
   },
   methods: {
     getUsers() {
-      userApi
-        .getUsers(
-          this.pagination.page,
-          this.pagination.rpp,
-          this.pagination.sort
-        )
-        .then(response => {
-          if (response) {
-            if (response.status === 200) {
-              this.page = response.data.page
-              this.rpp = response.data.rpp
-              this.total = response.data.total
-              this.userData = response.data.datas
-            }
+      userApi.getUsers(this.pagination).then(response => {
+        if (response) {
+          if (response.status === 200) {
+            this.page = response.data.page
+            this.rpp = response.data.rpp
+            this.total = response.data.total
+            this.userData = response.data.datas
           }
-        })
+        }
+      })
     },
     handleSortChange(column) {
       if (column.order !== 'normal') {

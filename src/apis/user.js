@@ -2,14 +2,18 @@ import service from '../utils/service'
 
 const baseUrl = '/api/v1/users'
 
-export function getUsers(page, rpp, sort) {
+const userApi = {}
+
+userApi.getUsers = pagination => {
   return service({
     url: baseUrl,
     params: {
-      page: page,
-      rpp: rpp,
-      sort: sort
+      page: pagination.page,
+      rpp: pagination.rpp,
+      sort: pagination.sort
     },
     method: 'get'
   })
 }
+
+export default userApi

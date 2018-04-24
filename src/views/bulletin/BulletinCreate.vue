@@ -39,7 +39,7 @@
 
 <script>
 import MarkdownEditor from '@/components/markdown-editor/MarkdownEditor'
-import * as bulletinApi from '@/apis/bulletin'
+import bulletinApi from '@/apis/bulletin'
 
 export default {
   components: {

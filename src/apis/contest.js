@@ -2,29 +2,33 @@ import service from '../utils/service'
 
 const baseUrl = '/api/v1/contests'
 
-export function getContests(page, rpp, sort) {
+const contestApi = {}
+
+contestApi.getContests = pagination => {
   return service({
     url: baseUrl,
     params: {
-      page: page,
-      rpp: rpp,
-      sort: sort
+      page: pagination.page,
+      rpp: pagination.rpp,
+      sort: pagination.sort
     },
     method: 'get'
   })
 }
 
-export function getContest(contestId) {
+contestApi.getContest = contestId => {
   return service({
     url: `${baseUrl}/${contestId}`,
     method: 'get'
   })
 }
 
-export function createContest(contest) {
+contestApi.createContest = contest => {
   return service({
     url: baseUrl,
     data: contest,
     method: 'post'
   })
 }
+
+export default contestApi

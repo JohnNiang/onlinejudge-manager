@@ -2,7 +2,9 @@ import service from '../utils/service'
 
 const baseUrl = '/api/v1/problems'
 
-export function createProblem(problem) {
+const problemApi = {}
+
+problemApi.createProblem = problem => {
   return service({
     url: baseUrl,
     data: problem,
@@ -10,7 +12,26 @@ export function createProblem(problem) {
   })
 }
 
-export function uploadFiles(problemId, formData, uploadProgress) {
+problemApi.getProblems = (page, rpp, sort) => {
+  return service({
+    url: baseUrl,
+    params: {
+      page: page,
+      rpp: rpp,
+      sort: sort
+    },
+    method: 'get'
+  })
+}
+
+problemApi.getProblem = id => {
+  return service({
+    url: `${baseUrl}/${id}`,
+    method: 'get'
+  })
+}
+
+problemApi.uploadFiles = (problemId, formData, uploadProgress) => {
   return service({
     url: `${baseUrl}/${problemId}/datas/upload`,
     data: formData,
@@ -18,3 +39,5 @@ export function uploadFiles(problemId, formData, uploadProgress) {
     onUploadProgress: uploadProgress
   })
 }
+
+export default problemApi
