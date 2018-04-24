@@ -19,8 +19,13 @@ npm run build --report
 ```
 
 ## TODOList
-- [x] check problem
-- [x] check contest
-- [x] check bulletin
-- [x] operate user
-- [x] show total in index
+
+* [x] check problem
+* [x] publish a problem
+* [x] delete a problem
+* [x] modify a problem
+
+* [x] check contest
+* [x] check bulletin
+* [x] operate user
+* [x] show total in index

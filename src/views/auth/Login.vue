@@ -78,11 +78,9 @@ export default {
                   this.$Notice.success({
                     title: 'You have been sign in successfully'
                   })
-                  // go into the index page
-                  this.$router.push({
-                    name: 'home'
-                  })
-                  console.log('go into the index page')
+                  // go into the redirect page
+                  const to = this.$route.query.redirect
+                  this.$router.push(to !== undefined ? to : { name: 'home' })
                 } else {
                   this.error = 'username or password is incorrect'
                 }

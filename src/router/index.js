@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import store from '../store'
+import store from '../store'
 
 const Main = resolve => require(['@/views/main/Main'], resolve)
 const Index = resolve => require(['@/views/index/Index'], resolve)
@@ -69,6 +69,20 @@ const router = new Router({
       component: Login
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const isLogined = store.getters.isLogined
+  if (!isLogined && to.name !== 'login') {
+    next({
+      name: 'login',
+      query: {
+        redirect: to.fullPath
+      }
+    })
+  } else {
+    next()
+  }
 })
 
 export default router

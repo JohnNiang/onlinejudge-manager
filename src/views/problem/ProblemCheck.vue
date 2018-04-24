@@ -1,14 +1,31 @@
 <template>
   <div>
     <Row>
-      <Col span="24">
+      <Col span="18">
       <Card>
         <p slot="title" class="center">
           <Icon type="social-twitch"></Icon>
           Problem Check
         </p>
-        <Table :columns="problemColumns" :data="problems"></Table>
+        <Table :columns="problemColumns" :data="problems" @on-selection-change="handleSelectionChange"></Table>
         <Page show-total class-name="user_pagination" :total="pagination.total" :current="pagination.page" :page-size="pagination.rpp" show-sizer placement="top" @on-change="handleCurrentPageChange" @on-page-size-change="handlePageSizeChange"></Page>
+      </Card>
+      </Col>
+      <Col span="6">
+      <Card>
+        <p slot="title">
+          <Icon type="hammer"></Icon>
+          Action
+        </p>
+        <div class="action">
+          <Button type="info" long @click="handlePublishClick">Publish</Button>
+        </div>
+        <div class="action">
+          <Button type="error" long>Delete</Button>
+        </div>
+        <div class="action">
+          <Button type="warning" long>Translate Contest</Button>
+        </div>
       </Card>
       </Col>
     </Row>
@@ -23,6 +40,11 @@ export default {
   data() {
     return {
       problemColumns: [
+        {
+          type: 'selection',
+          width: 60,
+          align: 'center'
+        },
         {
           title: '#',
           key: 'problemId',
@@ -58,11 +80,12 @@ export default {
         }
       ],
       problems: [],
+      selection: [],
       pagination: {
         page: 1,
         rpp: 10,
         total: 0,
-        sort: ''
+        sort: 'updateTime,desc'
       }
     }
   },
@@ -80,6 +103,22 @@ export default {
         }
       })
     },
+    publishProblems() {
+      const problemIds = []
+      this.selection.forEach(item => {
+        problemIds.push(item.problemId)
+      })
+      problemApi.publishProblems(problemIds).then(response => {
+        if (response) {
+          if (response.status === 200) {
+            this.$Notice.success({
+              title: 'publish successfully'
+            })
+            this.getProblems()
+          }
+        }
+      })
+    },
     handleCurrentPageChange(current) {
       this.pagination.page = current
       // fetch again
@@ -89,6 +128,13 @@ export default {
       this.pagination.rpp = pageSize
       // fetch again
       this.getProblems()
+    },
+    handleSelectionChange(selection) {
+      console.log('selection', selection)
+      this.selection = selection
+    },
+    handlePublishClick() {
+      this.publishProblems()
     }
   }
 }
@@ -97,5 +143,9 @@ export default {
 <style lang="scss" scoped>
 .ivu-card {
   margin: 10px;
+}
+
+.action {
+  margin: 10px auto;
 }
 </style>

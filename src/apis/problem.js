@@ -12,6 +12,14 @@ problemApi.createProblem = problem => {
   })
 }
 
+problemApi.publishProblems = problemIds => {
+  return service({
+    url: `${baseUrl}/publish`,
+    data: problemIds,
+    method: 'put'
+  })
+}
+
 problemApi.getProblems = pagination => {
   return service({
     url: baseUrl,

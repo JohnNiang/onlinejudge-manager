@@ -109,6 +109,7 @@
 import MyBreadcrumb from '../../components/breadcrumb/MyBreadcrumb'
 import { mapGetters, mapMutations } from 'vuex'
 import * as type from '@/store/mutation-type'
+import authApi from '@/apis/auth'
 
 export default {
   name: 'App',
@@ -136,6 +137,15 @@ export default {
       } else if (name === 'signout') {
         // clear authentication
         this.clearToken()
+        authApi.logout().then(response => {
+          if (response) {
+            if (response.status === 200) {
+              this.$Notice.success({
+                title: 'You have been logged out successfully'
+              })
+            }
+          }
+        })
         this.$router.push({
           name: 'login'
         })
