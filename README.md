@@ -18,8 +18,9 @@ npm run build
 npm run build --report
 ```
 
-## Setup
-
-router
-vuex
-axios + nprogress
+## TODOList
+- [x] check problem
+- [x] check contest
+- [x] check bulletin
+- [x] operate user
+- [x] show total in index
