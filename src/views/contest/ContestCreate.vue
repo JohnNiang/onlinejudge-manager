@@ -74,11 +74,11 @@ export default {
     return {
       contestTypes: [
         {
-          value: 0,
+          value: 'single-player',
           label: 'Single player'
         },
         {
-          value: 1,
+          value: 'multi-player',
           label: 'Multi player'
         }
       ],

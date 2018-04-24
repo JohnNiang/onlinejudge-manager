@@ -1,6 +1,5 @@
 import * as type from '../mutation-type'
 import authApi from '../../apis/auth'
-import store from '..'
 
 const AUTH_RESULT = 'authResult'
 
@@ -30,7 +29,7 @@ const mutations = {
   },
   [type.SET_TOKEN](state, token) {
     localStorage.setItem(AUTH_RESULT, JSON.stringify(token))
-    store.authResult = token
+    state.authResult = token
   },
   [type.CLEAR_TOKEN](state) {
     localStorage.removeItem(AUTH_RESULT)

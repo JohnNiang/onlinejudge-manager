@@ -6,6 +6,8 @@ const Main = resolve => require(['@/views/main/Main'], resolve)
 const Index = resolve => require(['@/views/index/Index'], resolve)
 const ProblemCreate = resolve =>
   require(['@/views/problem/ProblemCreate'], resolve)
+const ProblemCheck = resolve =>
+  require(['@/views/problem/ProblemCheck'], resolve)
 const ContestCreate = resolve =>
   require(['@/views/contest/ContestCreate'], resolve)
 const BulletinCreate = resolve =>
@@ -33,6 +35,11 @@ const router = new Router({
           path: 'problems/create',
           name: 'problem_create',
           component: ProblemCreate
+        },
+        {
+          path: 'problems/check',
+          name: 'problem_check',
+          component: ProblemCheck
         },
         {
           path: 'contests/create',

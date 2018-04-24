@@ -133,7 +133,8 @@ export default {
       pagination: {
         page: 1,
         rpp: 20,
-        total: 0
+        total: 0,
+        sort: ''
       }
     }
   },
@@ -145,9 +146,7 @@ export default {
       userApi.getUsers(this.pagination).then(response => {
         if (response) {
           if (response.status === 200) {
-            this.page = response.data.page
-            this.rpp = response.data.rpp
-            this.total = response.data.total
+            this.pagination.total = response.data.total
             this.userData = response.data.datas
           }
         }

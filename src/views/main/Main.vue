@@ -12,7 +12,11 @@
             <Icon type="ios-navigate"></Icon>
             Problem
           </template>
-          <MenuItem name="1-1">Check</MenuItem>
+          <MenuItem name="1-1">
+          <router-link tag="a" to="/problems/check">
+            Check
+          </router-link>
+          </MenuItem>
           <MenuItem name="1-2">
           <router-link tag="a" to="/problems/create">
             Create

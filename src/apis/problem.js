@@ -12,13 +12,13 @@ problemApi.createProblem = problem => {
   })
 }
 
-problemApi.getProblems = (page, rpp, sort) => {
+problemApi.getProblems = pagination => {
   return service({
     url: baseUrl,
     params: {
-      page: page,
-      rpp: rpp,
-      sort: sort
+      page: pagination.page,
+      rpp: pagination.rpp,
+      sort: pagination.sort
     },
     method: 'get'
   })
