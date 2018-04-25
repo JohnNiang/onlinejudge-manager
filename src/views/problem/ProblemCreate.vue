@@ -105,6 +105,7 @@
 <script>
 import util from '@/utils'
 import problemApi from '@/apis/problem'
+import languageApi from '@/apis/language'
 import MarkdownEditor from '@/components/markdown-editor/MarkdownEditor'
 import MySlider from '@/components/slider/MySlider'
 import FileUpload from '@/components/file-upload/FileUpload'
@@ -137,6 +138,7 @@ export default {
         type: 'general',
         description: '\n### Input\n\n ### Output'
       },
+      languages: [],
       problemCreated: {},
       error: null,
       inputFiles: [],
@@ -187,6 +189,15 @@ export default {
   methods: {
     formatLimit(num) {
       return util.toThousands(num)
+    },
+    getLanguages() {
+      languageApi.getLanguages().then(response => {
+        if (response) {
+          if (response.status === 200) {
+            this.languages = response.data
+          }
+        }
+      })
     },
     handleSubmit() {
       console.log(this.problem)

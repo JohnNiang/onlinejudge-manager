@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import * as languageApi from '@/apis/language'
+import languageApi from '@/apis/language'
 import LanguageAction from './LanguageAction'
 
 export default {

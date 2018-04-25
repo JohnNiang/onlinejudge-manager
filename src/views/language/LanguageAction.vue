@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import * as languageApi from '@/apis/language'
+import languageApi from '@/apis/language'
 
 export default {
   name: 'language-action',

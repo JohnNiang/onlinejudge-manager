@@ -2,7 +2,9 @@ import service from '../utils/service'
 
 const baseUrl = '/api/v1/languages'
 
-export function createLanguage(language) {
+const languageApi = {}
+
+languageApi.createLanguage = language => {
   return service({
     url: baseUrl,
     data: language,
@@ -10,21 +12,21 @@ export function createLanguage(language) {
   })
 }
 
-export function getLanguages() {
+languageApi.getLanguages = () => {
   return service({
     url: baseUrl,
     method: 'get'
   })
 }
 
-export function deleteLanguage(languageId) {
+languageApi.deleteLanguage = languageId => {
   return service({
     url: `${baseUrl}/${languageId}`,
     method: 'delete'
   })
 }
 
-export function updateLanguage(languageId, language) {
+languageApi.updateLanguage = (languageId, language) => {
   return service({
     url: `${baseUrl}/${languageId}`,
     data: language,
@@ -32,16 +34,18 @@ export function updateLanguage(languageId, language) {
   })
 }
 
-export function enableLanguage(languageId) {
+languageApi.enableLanguage = languageId => {
   return service({
     url: `${baseUrl}/${languageId}/status/enable`,
     method: 'put'
   })
 }
 
-export function diableLanguage(languageId) {
+languageApi.diableLanguage = languageId => {
   return service({
     url: `${baseUrl}/${languageId}/status/disable`,
     method: 'put'
   })
 }
+
+export default languageApi
