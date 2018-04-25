@@ -26,6 +26,7 @@ npm run build --report
 * [x] modify a problem
 
 * [x] check contest
+* [x] add contest problems
 * [x] check bulletin
 * [x] operate user
 * [x] show total in index

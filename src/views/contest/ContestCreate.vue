@@ -83,7 +83,7 @@ export default {
         }
       ],
       contest: {
-        type: 0,
+        type: 'single-player',
         description: '',
         startTime: null,
         endTime: null

@@ -41,7 +41,7 @@
         <p class="align-center">Will you publish them?</p>
       </div>
       <div v-else class="align-center">
-        they are publishing status now.
+        they are publishing status now. or you don't select any problem
       </div>
       <div slot="footer">
         <Button type="primary" :disabled="publishProblems.length === 0" size="large" long :loading="modal_loading" @click="handlePublishClick">Publish</Button>
@@ -54,13 +54,13 @@
         <span>Publish confirmation</span>
       </p>
       <div v-if="deletingProblems.length > 0">
-         <Timeline pending>
+        <Timeline pending>
           <TimelineItem v-for="problem in deletingProblems" :key="problem.problemId">{{problem.title}}</TimelineItem>
         </Timeline>
         <p class="align-center">Will you delete them?</p>
       </div>
       <div v-else class="align-center">
-        they are deleted status now.
+        they are deleted status now or you don't select any problem.
       </div>
       <div slot="footer">
         <Button type="error" :disabled="deletingProblems.length === 0" size="large" long :loading="modal_loading" @click="handleDeleteClick">Delete</Button>
