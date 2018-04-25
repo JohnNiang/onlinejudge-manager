@@ -47,12 +47,8 @@
           <Icon type="android-add"></Icon>
           Problem
         </p>
-        <p>
-          <Table :columns="contestProblemColumns" :data="contestProblems" @on-selection-change="handleSelectionChange"></Table>
-        </p>
-        <div>
-          <Page :current.sync="pagination.page" :total="pagination.total" :page-size="pagination.rpp" simple></Page>
-        </div>
+        <Table :columns="contestProblemColumns" :data="contestProblems" @on-selection-change="handleSelectionChange"></Table>
+        <Page :current.sync="pagination.page" :total="pagination.total" :page-size="pagination.rpp" simple></Page>
       </Card>
       </Col>
     </Row>

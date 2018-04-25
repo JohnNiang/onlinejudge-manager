@@ -12,6 +12,14 @@ problemApi.createProblem = problem => {
   })
 }
 
+problemApi.createProblemLanguages = (problemId, languageIds) => {
+  return service({
+    url: `${baseUrl}/${problemId}/languages`,
+    data: languageIds,
+    method: 'post'
+  })
+}
+
 problemApi.publishProblems = problemIds => {
   return service({
     url: `${baseUrl}/publish`,

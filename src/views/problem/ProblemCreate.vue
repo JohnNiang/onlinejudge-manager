@@ -77,9 +77,7 @@
           <Icon type="android-add"></Icon>
           Supported language
         </p>
-        <p>
-          select supported languages
-        </p>
+        <Table :columns="languageColumns" :data="languages"></Table>
       </Card>
       <Card :bordered="false">
         <p slot="title">
@@ -118,6 +116,28 @@ export default {
   },
   data() {
     return {
+      languageColumns: [
+        {
+          type: 'selection',
+          width: 60,
+          align: 'center'
+        },
+        {
+          title: '#',
+          key: 'languageId',
+          width: 50
+        },
+        {
+          title: 'name',
+          key: 'name',
+          width: 200
+        },
+        {
+          title: 'status',
+          key: 'status',
+          width: 100
+        }
+      ],
       types: [
         {
           value: 'general',
@@ -184,7 +204,17 @@ export default {
       return classifiedFiles.filter(item => {
         return item !== undefined && item.inputFileName && item.outputFileName
       })
+    },
+    selectLanguageIds() {
+      return this.languages.map(item => {
+        if (item.status === 'available') {
+          return item.languageId
+        }
+      })
     }
+  },
+  activated() {
+    this.getLanguages()
   },
   methods: {
     formatLimit(num) {
@@ -199,22 +229,50 @@ export default {
         }
       })
     },
-    handleSubmit() {
-      console.log(this.problem)
+    createProblem() {
       problemApi.createProblem(this.problem).then(response => {
         if (response) {
           if (response.status === 200) {
             this.problemCreated = response.data
             this.uploadFiles()
+            this.createProblemLanguages(this.problemCreated.problemId)
             this.$Notice.success({
               title: 'Problem has been created successfully'
             })
+            // TODO create problem language
           } else if (response.status === 400) {
             this.error = response.data.data
             if (typeof this.error === 'string') {
               this.error = response.data.message
             }
           }
+        }
+      })
+    },
+    createProblemLanguages(problemId) {
+      problemApi
+        .createProblemLanguages(problemId, this.selectLanguageIds)
+        .then(response => {
+          if (response) {
+            if (response.status === 200) {
+              this.$Notice.success({
+                title: '题目支持语言设置成功'
+              })
+            } else {
+              this.$Notice.error({
+                title: '题目支持语言设置失败'
+              })
+            }
+          }
+        })
+    },
+    handleSubmit() {
+      // precheck the support language
+      this.$Modal.confirm({
+        title: '确认提交么',
+        content: '发布题目的时候请保证题目的语言是否已经选择.',
+        onOk: () => {
+          this.createProblem()
         }
       })
     },
