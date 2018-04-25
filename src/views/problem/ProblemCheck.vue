@@ -158,7 +158,7 @@ export default {
     },
     publishProblems() {
       this.modal_loading = true
-      const problemIds = this.publishProblems.map(item => item.problemId)
+      const problemIds = this.publishingProblems.map(item => item.problemId)
       problemApi.publishProblems(problemIds).then(response => {
         if (response) {
           if (response.status === 200) {
