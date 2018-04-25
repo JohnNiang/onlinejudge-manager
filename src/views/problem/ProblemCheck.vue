@@ -44,7 +44,7 @@
         they are publishing status now. or you don't select any problem
       </div>
       <div slot="footer">
-        <Button type="primary" :disabled="publishProblems.length === 0" size="large" long :loading="modal_loading" @click="handlePublishClick">Publish</Button>
+        <Button type="primary" :disabled="publishingProblems.length === 0" size="large" long :loading="modal_loading" @click="handlePublishClick">Publish</Button>
       </div>
     </Modal>
 
@@ -158,13 +158,11 @@ export default {
     },
     publishProblems() {
       this.modal_loading = true
-      const problemIds = []
-      this.publishingProblems.forEach(item => {
-        problemIds.push(item.problemId)
-      })
+      const problemIds = this.publishProblems.map(item => item.problemId)
       problemApi.publishProblems(problemIds).then(response => {
         if (response) {
           if (response.status === 200) {
+            this.publishModal = false
             this.$Notice.success({
               title: 'publish successfully'
             })
@@ -185,7 +183,6 @@ export default {
       this.getProblems()
     },
     handleSelectionChange(selection) {
-      console.log('selection', selection)
       this.selection = selection
     },
     handlePublishClick() {

@@ -48,8 +48,11 @@
           Problem
         </p>
         <p>
-          Choose contest problem
+          <Table :columns="contestProblemColumns" :data="contestProblems" @on-selection-change="handleSelectionChange"></Table>
         </p>
+        <div>
+          <Page :current.sync="pagination.page" :total="pagination.total" :page-size="pagination.rpp" simple></Page>
+        </div>
       </Card>
       <Card>
         <p slot="title">
@@ -65,6 +68,8 @@
 <script>
 import MarkdownEditor from '@/components/markdown-editor/MarkdownEditor'
 import contestApi from '@/apis/contest'
+import problemApi from '@/apis/problem'
+import util from '@/utils'
 
 export default {
   components: {
@@ -88,9 +93,49 @@ export default {
         startTime: null,
         endTime: null
       },
+      contestProblemColumns: [
+        {
+          type: 'selection',
+          width: 60,
+          align: 'center'
+        },
+        {
+          title: '#',
+          key: 'problemId',
+          width: 50
+        },
+        {
+          title: 'title',
+          key: 'title',
+          width: 200
+        },
+        {
+          title: 'updated',
+          width: 120,
+          render: (h, params) => {
+            return h('span', util.timeAgo(params.row.createTime) + 'ago')
+          }
+        }
+      ],
+      contestProblems: [],
+      selection: [],
+      pagination: {
+        page: 1,
+        rpp: 5,
+        total: 0,
+        sort: 'updateTime,desc'
+      },
       datatimeRange: null,
       error: null
     }
+  },
+  computed: {
+    selectProblemIds() {
+      return this.selection.map(item => item.problemId)
+    }
+  },
+  activated() {
+    this.getContestProblems()
   },
   methods: {
     createContest() {
@@ -107,6 +152,18 @@ export default {
         }
       })
     },
+    getContestProblems() {
+      problemApi
+        .getProblemsForType('contest', this.pagination)
+        .then(response => {
+          if (response) {
+            if (response.status === 200) {
+              this.contestProblems = response.data.datas
+              this.pagination.total = response.data.total
+            }
+          }
+        })
+    },
     handlePublishContestClick() {
       // TODO pre check
 
@@ -116,6 +173,9 @@ export default {
     handleDateRangeChange(datetimeRange) {
       this.contest.startTime = datetimeRange[0]
       this.contest.endTime = datetimeRange[1]
+    },
+    handleSelectionChange(selection) {
+      this.selection = selection
     }
   }
 }

@@ -32,6 +32,18 @@ problemApi.getProblems = pagination => {
   })
 }
 
+problemApi.getProblemsForType = (type, pagination) => {
+  return service({
+    url: `${baseUrl}/type/${type}`,
+    params: {
+      page: pagination.page,
+      rpp: pagination.rpp,
+      sort: pagination.sort
+    },
+    method: 'get'
+  })
+}
+
 problemApi.getProblem = id => {
   return service({
     url: `${baseUrl}/${id}`,

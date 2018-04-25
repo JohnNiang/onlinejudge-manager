@@ -83,7 +83,7 @@ export default {
           render: (h, params) => {
             let statusTag = null
             let statusTagColor = null
-            if (params.row.status === 0) {
+            if (params.row.status === 'available') {
               statusTag = 'available'
               statusTagColor = 'green'
             } else {
@@ -110,7 +110,7 @@ export default {
           render: (h, params) => {
             let type = null
             let text = null
-            if (params.row.status === 0) {
+            if (params.row.status === 'available') {
               // available
               type = 'primary'
               text = 'disable'
@@ -236,7 +236,7 @@ export default {
       }
     },
     handleStatusChange(language) {
-      if (language.status === 0) {
+      if (language.status === 'available') {
         // disable it
         languageApi.diableLanguage(language.languageId).then(response => {
           if (response) {
