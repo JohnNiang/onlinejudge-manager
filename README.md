@@ -25,6 +25,8 @@ npm run build --report
 * [x] delete a problem
 * [x] modify a problem
 
+* [x] add language selection when creating problem
+
 * [x] check contest
 * [x] add contest problems
 * [x] check bulletin

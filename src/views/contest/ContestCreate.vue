@@ -54,12 +54,6 @@
           <Page :current.sync="pagination.page" :total="pagination.total" :page-size="pagination.rpp" simple></Page>
         </div>
       </Card>
-      <Card>
-        <p slot="title">
-          <Icon type="android-add"></Icon>
-          Supported language
-        </p>
-      </Card>
       </Col>
     </Row>
   </div>
