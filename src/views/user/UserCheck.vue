@@ -38,22 +38,22 @@ import userApi from '@/apis/user'
 import util from '@/utils'
 const types = [
   {
-    value: 0,
+    value: 'general',
     color: 'green',
     text: 'general'
   },
   {
-    value: 1,
+    value: 'teacher',
     color: 'yellow',
-    text: 'teahcer'
+    text: 'teacher'
   },
   {
-    value: 2,
+    value: 'admin',
     color: 'red',
     text: 'admin'
   },
   {
-    value: 3,
+    value: 'contestant',
     color: 'blue',
     text: 'contestant'
   }

@@ -78,15 +78,15 @@ export default {
     return {
       operators: [
         {
-          value: 0,
+          value: 'windows',
           label: 'Windows'
         },
         {
-          value: 1,
+          value: 'unix',
           label: 'Unix'
         },
         {
-          value: 2,
+          value: 'both',
           label: 'Both'
         }
       ],

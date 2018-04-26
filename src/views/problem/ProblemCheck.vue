@@ -142,7 +142,7 @@ export default {
       return this.selection.filter(item => item.status !== 'deleted')
     }
   },
-  mounted() {
+  activated() {
     this.getProblems()
   },
   methods: {

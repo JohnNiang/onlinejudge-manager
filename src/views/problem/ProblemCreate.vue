@@ -77,7 +77,7 @@
           <Icon type="android-add"></Icon>
           Supported language
         </p>
-        <Table :columns="languageColumns" :data="languages"></Table>
+        <Table :columns="languageColumns" :data="languages" @on-selection-change="handleSelectionChange"></Table>
       </Card>
       <Card :bordered="false">
         <p slot="title">
@@ -159,6 +159,7 @@ export default {
         description: '\n### Input\n\n ### Output'
       },
       languages: [],
+      selectLanguages: [],
       problemCreated: {},
       error: null,
       inputFiles: [],
@@ -206,11 +207,9 @@ export default {
       })
     },
     selectLanguageIds() {
-      return this.languages.map(item => {
-        if (item.status === 'available') {
-          return item.languageId
-        }
-      })
+      return this.selectLanguages
+        .filter(item => item.status === 'available')
+        .map(item => item.languageId)
     }
   },
   activated() {
@@ -308,6 +307,9 @@ export default {
     handleSliderChange(value, index) {
       // recode my weight
       this.weights[index] = value
+    },
+    handleSelectionChange(selection) {
+      this.selectLanguages = selection
     }
   }
 }

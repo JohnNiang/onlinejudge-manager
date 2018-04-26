@@ -12,6 +12,27 @@
       </Col>
       <Col span="8">
       <language-action :stageLanguage="languageToDo" :action="action" @on-action-success="handleActionSuccess" @on-cancel="handleCancel" @on-reset="handleReset"></language-action>
+      <Card>
+        <p slot="title" class="center">
+          <Icon type="android-list"></Icon>
+          Variables
+        </p>
+        <p class="center example">eg: /tmp/onlinejudge/source/Main.java </p>
+        <div class="variables">
+          <ol>
+            <li>
+              <b>filename</b> : /tmp/onlinejudge/source/Main.java </li>
+            <li>
+              <b>basename</b> : Main</li>
+            <li>
+              <b>extension</b> : java</li>
+            <li>
+              <b>name</b> : Main.java</li>
+            <li>
+              <b>fullpath</b> : /tmp/onlinejudge/source (without last separator)</li>
+          </ol>
+        </div>
+      </Card>
       </Col>
     </Row>
   </div>
@@ -27,20 +48,6 @@ export default {
   },
   data() {
     return {
-      operators: [
-        {
-          value: 0,
-          label: 'Windows'
-        },
-        {
-          value: 1,
-          label: 'Unix'
-        },
-        {
-          value: 2,
-          label: 'Both'
-        }
-      ],
       languageColumn: [
         {
           title: '#',
@@ -49,36 +56,38 @@ export default {
         },
         {
           title: 'name',
-          key: 'name'
+          key: 'name',
+          width: 100
         },
         {
           title: 'compile cmmand',
-          key: 'compileCmd'
+          key: 'compileCmd',
+          width: 300
         },
         {
           title: 'execute command',
-          key: 'executeCmd'
+          key: 'executeCmd',
+          width: 300
         },
         {
           title: 'source extension',
-          key: 'sourceExt'
+          key: 'sourceExt',
+          width: 100
         },
         {
           title: 'execute extension',
-          key: 'executeExt'
+          key: 'executeExt',
+          width: 100
         },
         {
           title: 'operator(win/unix)',
           key: 'operator',
-          width: 80,
-          render: (h, params) => {
-            const operators = ['Both', 'Unix', 'Windows']
-            return h('span', operators[params.row.operator])
-          }
+          width: 100
         },
         {
           title: 'status',
           key: 'status',
+          fixed: 'right',
           width: 140,
           render: (h, params) => {
             let statusTag = null
@@ -106,6 +115,7 @@ export default {
           title: 'action',
           key: 'action',
           align: 'center',
+          fixed: 'right',
           width: 210,
           render: (h, params) => {
             let type = null
@@ -176,7 +186,7 @@ export default {
         }
       ],
       languageToDo: {
-        operator: 1
+        operator: 'unix'
       },
       languageList: [],
       error: null,
@@ -277,5 +287,12 @@ export default {
 <style lang="scss" scoped>
 .ivu-card {
   margin: 10px;
+}
+
+.variables {
+  padding: 20px;
+  li {
+    margin: 20px auto;
+  }
 }
 </style>
