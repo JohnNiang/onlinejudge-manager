@@ -5,14 +5,14 @@
       <Card>
         <p slot="title" class="center">
           <Icon type="android-create"></Icon>
-          Contest Create
+          创建比赛
         </p>
         <Form :label-width="100">
-          <FormItem label="Title">
-            <Input v-model="contest.title" placeholder="Please input problem title" />
+          <FormItem label="标题">
+            <Input v-model="contest.title" placeholder="请输入比赛标题" />
             <span class="error_span" v-if="error && error.title">{{error.title}}</span>
           </FormItem>
-          <FormItem label="Description">
+          <FormItem label="描述">
             <markdown-editor v-model="contest.description"></markdown-editor>
             <span class="error_span" v-if="error && error.description">{{error.description}}</span>
           </FormItem>
@@ -23,29 +23,29 @@
       <Card>
         <p slot="title">
           <Icon type="paper-airplane"></Icon>
-          Publish
+          发布
         </p>
         <Form :label-width="70">
-          <FormItem label="time range">
-            <DatePicker v-model="datatimeRange" type="datetimerange" show-week-numbers placeholder="Select start and end datetime" style="width: 100%" @on-change="handleDateRangeChange"></DatePicker>
+          <FormItem label="时间范围">
+            <DatePicker v-model="datatimeRange" type="datetimerange" show-week-numbers placeholder="请选择开始和结束时间" style="width: 100%" @on-change="handleDateRangeChange"></DatePicker>
             <span class="error_span" v-if="error && error.startTime">{{error.startTime}}</span>
             <span class="error_span" v-if="error && error.endTime">{{error.endTime}}</span>
           </FormItem>
-          <FormItem label="type">
+          <FormItem label="类型">
             <Select v-model="contest.type" class="short_input">
               <Option v-for="type in contestTypes" :value="type.value" :key="type.value">{{type.label}}</Option>
             </Select>
-            <span>default: single player</span>
+            <span>默认: 单人赛</span>
           </FormItem>
           <FormItem>
-            <Button type="success" icon="android-send" @click="handlePublishContestClick">Publish</Button>
+            <Button type="success" icon="android-send" @click="handlePublishContestClick">发布</Button>
           </FormItem>
         </Form>
       </Card>
       <Card>
         <p slot="title">
           <Icon type="android-add"></Icon>
-          Problem
+          比赛题目
         </p>
         <Table :columns="contestProblemColumns" :data="contestProblems" @on-selection-change="handleSelectionChange"></Table>
         <Page :current.sync="pagination.page" :total="pagination.total" :page-size="pagination.rpp" simple></Page>
@@ -70,11 +70,11 @@ export default {
       contestTypes: [
         {
           value: 'single-player',
-          label: 'Single player'
+          label: '个人赛'
         },
         {
           value: 'multi-player',
-          label: 'Multi player'
+          label: '多人赛'
         }
       ],
       contest: {
@@ -95,12 +95,12 @@ export default {
           width: 50
         },
         {
-          title: 'title',
+          title: '题目标题',
           key: 'title',
           width: 200
         },
         {
-          title: 'updated',
+          title: '更新时间',
           width: 120,
           render: (h, params) => {
             return h('span', util.timeAgo(params.row.createTime) + 'ago')

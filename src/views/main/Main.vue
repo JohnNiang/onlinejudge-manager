@@ -3,70 +3,71 @@
     <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
       <div class="logo">
         <router-link to="/">
-          CJ OJ Manager
+          CJ OJ 管理端
         </router-link>
       </div>
       <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
         <Submenu name="1">
           <template slot="title">
             <Icon type="ios-navigate"></Icon>
-            Problem
+            题目
           </template>
           <MenuItem name="1-1">
           <router-link tag="a" to="/problems/check">
-            Check
+            查看
           </router-link>
           </MenuItem>
           <MenuItem name="1-2">
           <router-link tag="a" to="/problems/create">
-            Create
+            创建
           </router-link>
           </MenuItem>
         </Submenu>
         <Submenu name="2">
           <template slot="title">
             <Icon type="ios-keypad"></Icon>
-            Contest
+            比赛
           </template>
-          <MenuItem name="2-1">Check</MenuItem>
+          <MenuItem name="2-1"> 查看
+          </MenuItem>
           <MenuItem name="2-2">
           <router-link tag="a" to="/contests/create">
-            Create
+            创建
           </router-link>
           </MenuItem>
         </Submenu>
         <Submenu name="3">
           <template slot="title">
             <Icon type="speakerphone"></Icon>
-            Bulletin
+            公告
           </template>
-          <MenuItem name="3-1">Check</MenuItem>
+          <MenuItem name="3-1"> 查看
+          </MenuItem>
           <MenuItem name="3-2">
           <router-link tag="a" to="/bulletins/create">
-            Create
+            创建
           </router-link>
           </MenuItem>
         </Submenu>
         <Submenu name="4">
           <template slot="title">
             <Icon type="ios-analytics"></Icon>
-            Language
+            评判语言
           </template>
           <MenuItem name="4-1">
           <router-link tag="a" to="/languages/check">
-            Check
+            查看
           </router-link>
           </MenuItem>
-
         </Submenu>
         <Submenu name="5">
           <template slot="title">
             <Icon type="person"></Icon>
-            User
+            用户
           </template>
           <MenuItem name="5-1">
           <router-link tag="a" to="/users/check">
-            Check
+            查看
           </router-link>
           </MenuItem>
         </Submenu>
@@ -83,8 +84,8 @@
                 <Icon type="arrow-down-b"></Icon>
               </a>
               <DropdownMenu slot="list">
-                <DropdownItem name="center">Center</DropdownItem>
-                <DropdownItem name="signout" divided>Logout</DropdownItem>
+                <DropdownItem name="center">用户中心</DropdownItem>
+                <DropdownItem name="signout" divided>注销</DropdownItem>
               </DropdownMenu>
             </Dropdown>
             <Avatar :src="avatarPath" style="background: #619fe7;margin-left: 10px;"></Avatar>

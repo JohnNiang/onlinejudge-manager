@@ -5,7 +5,7 @@
       <Card>
         <p slot="title" class="center">
           <Icon type="social-twitch"></Icon>
-          Problem Check
+          题目列表
         </p>
         <Table :columns="problemColumns" :data="problems" @on-selection-change="handleSelectionChange"></Table>
         <Page show-total class-name="user_pagination" :total="pagination.total" :current="pagination.page" :page-size="pagination.rpp" show-sizer placement="top" @on-change="handleCurrentPageChange" @on-page-size-change="handlePageSizeChange"></Page>
@@ -15,16 +15,16 @@
       <Card>
         <p slot="title">
           <Icon type="hammer"></Icon>
-          Action
+          操作
         </p>
         <div class="action">
-          <Button type="info" long @click="publishModal = true">Publish</Button>
+          <Button type="info" long @click="publishModal = true">发布</Button>
         </div>
         <div class="action">
-          <Button type="error" long @click="deleteModal = true">Delete</Button>
+          <Button type="error" long @click="deleteModal = true">删除</Button>
         </div>
         <div class="action">
-          <Button type="warning" long>Translate Contest</Button>
+          <Button type="warning" long>转换为比赛题目</Button>
         </div>
       </Card>
       </Col>
@@ -32,38 +32,38 @@
     <Modal v-model="publishModal" width="360">
       <p slot="header" style="color:#46BFF6;text-align:center">
         <Icon type="information-circled"></Icon>
-        <span>Publish confirmation</span>
+        <span>发布确认</span>
       </p>
       <div v-if="publishingProblems.length > 0">
         <Timeline pending>
           <TimelineItem v-for="problem in publishingProblems" :key="problem.problemId">{{problem.title}}</TimelineItem>
         </Timeline>
-        <p class="align-center">Will you publish them?</p>
+        <p class="align-center">是否真的想发布它们？</p>
       </div>
       <div v-else class="align-center">
-        they are publishing status now. or you don't select any problem
+        已经发布过或者您为选择任何题目
       </div>
       <div slot="footer">
-        <Button type="primary" :disabled="publishingProblems.length === 0" size="large" long :loading="modal_loading" @click="handlePublishClick">Publish</Button>
+        <Button type="primary" :disabled="publishingProblems.length === 0" size="large" long :loading="modal_loading" @click="handlePublishClick">发布</Button>
       </div>
     </Modal>
 
     <Modal v-model="deleteModal" width="360">
       <p slot="header" style="color:red;text-align:center">
         <Icon type="information-circled"></Icon>
-        <span>Publish confirmation</span>
+        <span>删除确认</span>
       </p>
       <div v-if="deletingProblems.length > 0">
         <Timeline pending>
           <TimelineItem v-for="problem in deletingProblems" :key="problem.problemId">{{problem.title}}</TimelineItem>
         </Timeline>
-        <p class="align-center">Will you delete them?</p>
+        <p class="align-center">是否真的想要删除它们？</p>
       </div>
       <div v-else class="align-center">
-        they are deleted status now or you don't select any problem.
+        已经被删除或者未选中任何题目
       </div>
       <div slot="footer">
-        <Button type="error" :disabled="deletingProblems.length === 0" size="large" long :loading="modal_loading" @click="handleDeleteClick">Delete</Button>
+        <Button type="error" :disabled="deletingProblems.length === 0" size="large" long :loading="modal_loading" @click="handleDeleteClick">删除</Button>
       </div>
     </Modal>
   </div>
@@ -88,35 +88,35 @@ export default {
           width: 50
         },
         {
-          title: 'title',
+          title: '题目标题',
           key: 'title'
         },
         {
-          title: 'type',
+          title: '题目类型',
           key: 'type',
           width: 100
         },
         {
-          title: 'create time',
+          title: '创建时间',
           width: 150,
           render: (h, params) => {
             return h('span', util.timeAgo(params.row.createTime) + 'ago')
           }
         },
         {
-          title: 'update time',
+          title: '更新时间',
           width: 150,
           render: (h, params) => {
             return h('span', util.timeAgo(params.row.updateTime) + 'ago')
           }
         },
         {
-          title: 'published',
+          title: '是否已经发布过',
           width: 100,
           key: 'published'
         },
         {
-          title: 'status',
+          title: '状体',
           width: 100,
           key: 'status'
         }
@@ -164,7 +164,7 @@ export default {
           if (response.status === 200) {
             this.publishModal = false
             this.$Notice.success({
-              title: 'publish successfully'
+              title: '发布成功'
             })
             this.getProblems()
           }

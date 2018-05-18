@@ -5,7 +5,7 @@
       <Card>
         <p slot="title" class="center">
           <Icon type="android-list"></Icon>
-          Language list
+          评判语言列表
         </p>
         <Table stripe :columns="languageColumn" :data="languageList"></Table>
       </Card>
@@ -15,9 +15,9 @@
       <Card>
         <p slot="title" class="center">
           <Icon type="android-list"></Icon>
-          Variables
+          变量
         </p>
-        <p class="center example">eg: /tmp/onlinejudge/source/Main.java </p>
+        <p class="center example">例如：/tmp/onlinejudge/source/Main.java </p>
         <div class="variables">
           <ol>
             <li>
@@ -29,7 +29,7 @@
             <li>
               <b>name</b> : Main.java</li>
             <li>
-              <b>fullpath</b> : /tmp/onlinejudge/source (without last separator)</li>
+              <b>fullpath</b> : /tmp: /tmp/onlinejudge/source/Main.java /onlinejudge/source (without last separator)</li>
           </ol>
         </div>
       </Card>
@@ -55,37 +55,37 @@ export default {
           width: 50
         },
         {
-          title: 'name',
+          title: '名称',
           key: 'name',
           width: 100
         },
         {
-          title: 'compile cmmand',
+          title: '编译命令',
           key: 'compileCmd',
           width: 300
         },
         {
-          title: 'execute command',
+          title: '执行命令',
           key: 'executeCmd',
           width: 300
         },
         {
-          title: 'source extension',
+          title: '源文件扩展名',
           key: 'sourceExt',
           width: 100
         },
         {
-          title: 'execute extension',
+          title: '可执行文件扩展名',
           key: 'executeExt',
           width: 100
         },
         {
-          title: 'operator(win/unix)',
+          title: '操作系统',
           key: 'operator',
           width: 100
         },
         {
-          title: 'status',
+          title: '状态',
           key: 'status',
           fixed: 'right',
           width: 140,
@@ -93,10 +93,10 @@ export default {
             let statusTag = null
             let statusTagColor = null
             if (params.row.status === 'available') {
-              statusTag = 'available'
+              statusTag = '可用'
               statusTagColor = 'green'
             } else {
-              statusTag = 'testing'
+              statusTag = '测试中...'
               statusTagColor = 'yellow'
             }
             return h(
@@ -112,7 +112,7 @@ export default {
           }
         },
         {
-          title: 'action',
+          title: '操作',
           key: 'action',
           align: 'center',
           fixed: 'right',
@@ -123,11 +123,11 @@ export default {
             if (params.row.status === 'available') {
               // available
               type = 'primary'
-              text = 'disable'
+              text = '禁用'
             } else {
               // testing
               type = 'success'
-              text = 'enable'
+              text = '启用'
             }
             return h('div', [
               h(
@@ -164,7 +164,7 @@ export default {
                     }
                   }
                 },
-                'modify'
+                '修改'
               ),
               h(
                 'Button',
@@ -179,7 +179,7 @@ export default {
                     }
                   }
                 },
-                'delete'
+                '删除'
               )
             ])
           }

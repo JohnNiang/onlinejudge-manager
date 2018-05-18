@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <h1>CJ OJ Manager</h1>
+      <h1>CJ OJ 管理端</h1>
       <h2>cqjtu online judge</h2>
     </div>
     <nav>

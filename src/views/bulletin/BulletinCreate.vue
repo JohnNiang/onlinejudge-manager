@@ -5,14 +5,14 @@
       <Card>
         <p slot="title">
           <Icon type="android-create"></Icon>
-          Bulletin Create
+          创建公告
         </p>
         <Form :label-width="100">
-          <FormItem label="Title">
-            <Input v-model="bulletin.title" placeholder="Please input problem title" />
+          <FormItem label="标题">
+            <Input v-model="bulletin.title" placeholder="请输入公告标题" />
             <span class="error_span" v-if="error && error.title">{{error.title}}</span>
           </FormItem>
-          <FormItem label="Description">
+          <FormItem label="描述">
             <markdown-editor v-model="bulletin.content"></markdown-editor>
             <span class="error_span" v-if="error && error.content">{{error.content}}</span>
           </FormItem>
@@ -27,8 +27,8 @@
         </p>
         <Form :label-width="70">
           <FormItem>
-            <Button type="success" icon="android-send" @click="handlePublish">Publish</Button>
-            <Button icon="eye">Preview</Button>
+            <Button type="success" icon="android-send" @click="handlePublish">发布</Button>
+            <Button icon="eye">预览</Button>
           </FormItem>
         </Form>
       </Card>

@@ -5,26 +5,26 @@
       <Card>
         <p slot="title" class="center">
           <Icon type="android-create"></Icon>
-          Problem Create</p>
+          创建题目</p>
         <Form v-if="problem" :label-width="100">
-          <FormItem label="Title">
-            <Input v-model="problem.title" placeholder="Please input problem title" />
+          <FormItem label="题目标题">
+            <Input v-model="problem.title" placeholder="请输入题目标题" />
             <span class="error_span" v-if="error && error.title">{{ error.title }}</span>
           </FormItem>
-          <FormItem label="Description">
+          <FormItem label="题目描述">
             <markdown-editor v-model="problem.description"></markdown-editor>
           </FormItem>
-          <FormItem label="Data file">
+          <FormItem label="测试数据文件">
             <file-upload v-model="files"></file-upload>
           </FormItem>
-          <FormItem label="Data group">
-            <Col span="4"> Index
+          <FormItem label="测试数据组">
+            <Col span="4"> #
             </Col>
-            <Col span="8"> Input file name
+            <Col span="8"> 输入文件名
             </Col>
-            <Col span="8"> Output file name
+            <Col span="8"> 输出文件名
             </Col>
-            <Col span="4"> Weight(1-100)
+            <Col span="4"> 权重(1-100)
             </Col>
             <div v-for="(classifiedFile, index) in classifiedFiles" :key="index">
               <Col span="4"> {{index + 1}}
@@ -45,54 +45,56 @@
       <Card :bordered="false">
         <p slot="title">
           <Icon type="paper-airplane"></Icon>
-          Publish
+          发布
         </p>
         <Form v-if="problem" :label-width="90">
-          <FormItem label="Time Limit">
+          <FormItem label="时间限制">
             <InputNumber class="short_input" v-model="problem.timeLimit" :step="100" :min="100" :max="10000" :formatter="value => formatLimit(value)+ ' ms'" />
             <span>100ms - 10000ms</span>
           </FormItem>
-          <FormItem label="Memory Limit">
+          <FormItem label="内存限制">
             <InputNumber class="short_input" v-model="problem.memoryLimit" :step="1024" :min="1024" :max="102400" value="32768" :formatter="value => formatLimit(value)+ ' KB'" />
             <span>1024KB - 102400KB</span>
           </FormItem>
-          <FormItem label="Type">
+          <FormItem label="题目类型">
             <Select v-model="problem.type" class="short_input">
               <Option v-for="type in types" :value="type.value" :key="type.value">{{type.label}}</Option>
             </Select>
-            <span>default: general</span>
+            <div>
+              <span>默认: 普通题目</span>
+            </div>
             <div>
               <span v-if="error && error.type">{{error.type}}</span>
             </div>
           </FormItem>
           <FormItem>
             <span class="error_span" v-if="error && typeof error === 'string'">{{error}}</span>
-            <Button type="success" icon="android-send" @click="handleSubmit">Publish</Button>
-            <Button type="dashed">Draft</Button>
+            <Button type="success" icon="android-send" @click="handleSubmit">发布</Button>
+            <Button type="dashed">草稿</Button>
           </FormItem>
         </Form>
       </Card>
       <Card>
         <p slot="title">
           <Icon type="android-add"></Icon>
-          Supported language
+          支持语言
         </p>
         <Table :columns="languageColumns" :data="languages" @on-selection-change="handleSelectionChange"></Table>
       </Card>
       <Card :bordered="false">
         <p slot="title">
           <Icon type="navicon-round"></Icon>
-          Category
+          类别
         </p>
-        <p>select categories</p>
+        <p>选择类别</p>
       </Card>
       <Card :bordered="false">
         <p slot="title">
           <Icon type="ios-pricetags-outline"></Icon>
-          Tag
+          标签
         </p>
         <p>
-          select tags
+          选择标签
         </p>
       </Card>
       </Col>
@@ -128,12 +130,12 @@ export default {
           width: 50
         },
         {
-          title: 'name',
+          title: '名称',
           key: 'name',
           width: 200
         },
         {
-          title: 'status',
+          title: '状态',
           key: 'status',
           width: 100
         }
@@ -141,22 +143,22 @@ export default {
       types: [
         {
           value: 'general',
-          label: 'General problem'
+          label: '普通题目'
         },
         {
           value: 'contest',
-          label: 'Contest problem'
+          label: '比赛题目'
         },
         {
           value: 'assignment',
-          label: 'Assignment problem'
+          label: '作业题目'
         }
       ],
       problem: {
         timeLimit: 1000,
         memoryLimit: 32768,
         type: 'general',
-        description: '\n### Input\n\n ### Output'
+        description: '##### 问题描述\n\n ##### 输入格式\n\n ##### 输出格式\n\n #### 样例输入\n\n #### 样例输出\n\n'
       },
       languages: [],
       selectLanguages: [],

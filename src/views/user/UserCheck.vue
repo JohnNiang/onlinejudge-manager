@@ -5,7 +5,7 @@
       <Card>
         <p slot="title" class="center">
           <Icon type="ios-people" :size="20"></Icon>
-          User detail
+          用户列表
         </p>
         <Table :columns="userColumns" :data="userData" @on-sort-change="handleSortChange"></Table>
         <Page show-total class-name="user_pagination" :total="pagination.total" :current="pagination.page" :page-size="pagination.rpp" show-sizer placement="top" @on-change="handleCurrentPageChange" @on-page-size-change="handlePageSizeChange"></Page>
@@ -15,16 +15,16 @@
       <Card>
         <p slot="title">
           <Icon type="android-search"></Icon>
-          Action
+          操作
         </p>
         <Form inline>
           <FormItem>
-            <Input type="text" placeholder="Please input user id">
+            <Input type="text" placeholder="请输入用户名">
             <Icon type="android-search" slot="prepend"></Icon>
             </Input>
           </FormItem>
           <FormItem>
-            <Button type="primary" icon="android-search">Search</Button>
+            <Button type="primary" icon="android-search">查找</Button>
           </FormItem>
         </Form>
       </Card>
@@ -40,22 +40,22 @@ const types = [
   {
     value: 'general',
     color: 'green',
-    text: 'general'
+    text: '普通用户'
   },
   {
     value: 'teacher',
     color: 'yellow',
-    text: 'teacher'
+    text: '教师'
   },
   {
     value: 'admin',
     color: 'red',
-    text: 'admin'
+    text: '管理员'
   },
   {
     value: 'contestant',
     color: 'blue',
-    text: 'contestant'
+    text: '比赛用户'
   }
 ]
 export default {
@@ -68,7 +68,7 @@ export default {
           width: 50
         },
         {
-          title: 'Avatar',
+          title: '头像',
           key: 'avatar',
           width: 80,
           render: (h, params) => {
@@ -86,11 +86,11 @@ export default {
           }
         },
         {
-          title: 'Name',
+          title: '用户名',
           key: 'username'
         },
         {
-          title: 'User Type',
+          title: '用户类型',
           key: 'userType',
           render: (h, params) => {
             const type = types.find(type => type.value === params.row.userType)
@@ -107,7 +107,7 @@ export default {
           }
         },
         {
-          title: 'Created',
+          title: '创建时间',
           key: 'createTime',
           sortable: 'custom',
           render: (h, params) => {
@@ -115,14 +115,14 @@ export default {
           }
         },
         {
-          title: 'Updated',
+          title: '更新时间',
           key: 'updateTime',
           render: (h, params) => {
             return h('span', util.timeAgo(params.row.updateTime) + ' ago')
           }
         },
         {
-          title: 'ExpiredTime',
+          title: '过期截止时间',
           key: 'expiredTime',
           render: (h, params) => {
             return h('span', util.parseTime(params.row.expiredTime))
