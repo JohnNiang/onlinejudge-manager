@@ -4,6 +4,13 @@ const baseUrl = '/api/v1/problems'
 
 const problemApi = {}
 
+problemApi.count = () => {
+  return service({
+    url: `${baseUrl}/count`,
+    method: 'get'
+  })
+}
+
 problemApi.createProblem = problem => {
   return service({
     url: baseUrl,

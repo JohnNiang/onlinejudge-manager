@@ -8,7 +8,7 @@
           题目列表
         </p>
         <Table :columns="problemColumns" :data="problems" @on-selection-change="handleSelectionChange"></Table>
-        <Page show-total class-name="user_pagination" :total="pagination.total" :current="pagination.page" :page-size="pagination.rpp" show-sizer placement="top" @on-change="handleCurrentPageChange" @on-page-size-change="handlePageSizeChange"></Page>
+        <Page class="mt-1" show-total class-name="user_pagination" :total="pagination.total" :current="pagination.page" :page-size="pagination.rpp" show-sizer placement="top" @on-change="handleCurrentPageChange" @on-page-size-change="handlePageSizeChange"></Page>
       </Card>
       </Col>
       <Col span="6">

@@ -4,6 +4,13 @@ const baseUrl = '/api/v1/users'
 
 const userApi = {}
 
+userApi.count = () => {
+  return service({
+    url: `${baseUrl}/count`,
+    method: 'get'
+  })
+}
+
 userApi.getUsers = pagination => {
   return service({
     url: baseUrl,

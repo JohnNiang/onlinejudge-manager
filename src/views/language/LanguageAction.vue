@@ -33,7 +33,9 @@
         <Select v-model="language.operator" style="width:200px">
           <Option v-for="operator in operators" :value="operator.value" :key="operator.value">{{operator.label}}</Option>
         </Select>
-        <span>默认: Unix</span>
+        <div>
+          <span>默认: Unix</span>
+        </div>
         <span class="error_span" v-if="error && error.operator">{{error.operator}}</span>
       </Form-item>
       <Form-item>
@@ -157,5 +159,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

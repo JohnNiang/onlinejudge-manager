@@ -4,6 +4,13 @@ const baseUrl = '/api/v1/contests'
 
 const contestApi = {}
 
+contestApi.count = () => {
+  return service({
+    url: `${baseUrl}/count`,
+    method: 'get'
+  })
+}
+
 contestApi.getContests = pagination => {
   return service({
     url: baseUrl,
