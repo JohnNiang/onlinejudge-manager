@@ -107,16 +107,12 @@
 </template>
 
 <script>
-import MyBreadcrumb from '../../components/breadcrumb/MyBreadcrumb'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import * as type from '@/store/mutation-type'
 import authApi from '@/apis/auth'
 
 export default {
   name: 'App',
-  components: {
-    MyBreadcrumb
-  },
   data() {
     return {
       avatarPath:
@@ -126,7 +122,11 @@ export default {
   computed: {
     ...mapGetters(['currentPath', 'user', 'globalError'])
   },
+  created() {
+    this.refreshUserDetail()
+  },
   methods: {
+    ...mapActions(['refreshUserDetail']),
     ...mapMutations({
       clearToken: type.CLEAR_TOKEN
     }),
