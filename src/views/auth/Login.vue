@@ -36,7 +36,7 @@
 
 <script>
 import authApi from '../../apis/auth'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 import * as type from '@/store/mutation-type'
 
 export default {
@@ -59,6 +59,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['refreshUserDetail']),
     ...mapMutations({
       setToken: type.SET_TOKEN
     }),
@@ -80,6 +81,7 @@ export default {
                   })
                   // go into the redirect page
                   const to = this.$route.query.redirect
+                  this.refreshUserDetail()
                   this.$router.push(to !== undefined ? to : { name: 'home' })
                 } else {
                   this.error = 'username or password is incorrect'

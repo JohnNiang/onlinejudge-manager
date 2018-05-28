@@ -80,7 +80,7 @@
           <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
             <Dropdown transfer trigger="click" @on-click="handleClickUserDropdown">
               <a href="javascript:void(0)">
-                <span class="main-user-name">{{ user.username }}</span>
+                <span v-if="user" class="main-user-name">{{ user.username }}</span>
                 <Icon type="arrow-down-b"></Icon>
               </a>
               <DropdownMenu slot="list">
@@ -88,7 +88,7 @@
                 <DropdownItem name="signout" divided>注销</DropdownItem>
               </DropdownMenu>
             </Dropdown>
-            <Avatar :src="user.avatar" style="background: #619fe7;margin-left: 10px;"></Avatar>
+            <Avatar v-if="user" :src="user.avatar" style="background: #619fe7;margin-left: 10px;"></Avatar>
           </Row>
         </div>
       </Header>

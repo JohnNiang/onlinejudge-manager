@@ -52,7 +52,7 @@ export default {
 }
 
 .info-card-div {
-  height: 80px;
+  height: 100px;
 }
 
 .info-card-icon {

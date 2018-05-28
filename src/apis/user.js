@@ -4,6 +4,20 @@ const baseUrl = '/api/v1/users'
 
 const userApi = {}
 
+userApi.getDetail = () => {
+  return service({
+    url: `${baseUrl}/me`,
+    method: 'get'
+  })
+}
+
+userApi.getExtraDetail = () => {
+  return service({
+    url: `${baseUrl}/me/extra`,
+    method: 'get'
+  })
+}
+
 userApi.count = () => {
   return service({
     url: `${baseUrl}/count`,
