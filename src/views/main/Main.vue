@@ -88,7 +88,7 @@
                 <DropdownItem name="signout" divided>注销</DropdownItem>
               </DropdownMenu>
             </Dropdown>
-            <Avatar :src="avatarPath" style="background: #619fe7;margin-left: 10px;"></Avatar>
+            <Avatar :src="user.avatar" style="background: #619fe7;margin-left: 10px;"></Avatar>
           </Row>
         </div>
       </Header>

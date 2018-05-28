@@ -13,6 +13,9 @@ import 'nprogress/nprogress.css' // Progress 进度条样式
 // import iview style
 import 'iview/dist/styles/iview.css'
 
+// import custom components
+import './components'
+
 Vue.config.productionTip = false
 
 Vue.use(iView)
