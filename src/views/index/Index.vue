@@ -40,7 +40,7 @@
       </Row>
       <Row :gutter="5">
         <Col :xs="24" :sm="12">
-        <info-card desc="今日评判总数" icon-type="upload" icon-size="40" :count="888" background="#2d8cf0"></info-card>
+        <info-card desc="今日评判总数" icon-type="upload" icon-size="40" :count="todaySubmissionCount" background="#2d8cf0"></info-card>
         </Col>
         <Col :xs="24" :sm="12">
         <info-card desc="裁判端总数" icon-type="social-tux" icon-size="40" :count="jdugers" background="#19be6b"></info-card>
@@ -63,6 +63,7 @@ import contestApi from '@/apis/contest'
 import userApi from '@/apis/user'
 import bulletinApi from '@/apis/bulletin'
 import judgerApi from '@/apis/judger'
+import submissionApi from '@/apis/submission'
 
 const types = {
   admin: '管理员',
@@ -76,8 +77,8 @@ export default {
       contestCount: 0,
       bulletinCount: 0,
       userCount: 0,
-      judgerInfos: [],
-      interval: null
+      todaySubmissionCount: 0,
+      judgerInfos: []
     }
   },
   created() {
@@ -85,8 +86,8 @@ export default {
     this.getContestCount()
     this.getUserCount()
     this.getBulletinCount()
-    // set interval
-    this.$options.interval = setInterval(this.getJudgeInfo, 2000)
+
+    this.setInterval()
   },
   deactivated() {
     clearInterval(this.$options.interval)
@@ -137,7 +138,7 @@ export default {
         }
       })
     },
-    getJudgeInfo() {
+    getJudgerInfo() {
       judgerApi.getJudgerInfo().then(response => {
         if (response) {
           if (response.status === 200) {
@@ -145,6 +146,22 @@ export default {
           }
         }
       })
+    },
+    countTodaySubmission() {
+      submissionApi.countToday().then(response => {
+        if (response) {
+          if (response.status === 200) {
+            this.todaySubmissionCount = response.data
+          }
+        }
+      })
+    },
+    setInterval() {
+      // set interval
+      this.$options.interval = setInterval(() => {
+        this.getJudgerInfo()
+        this.countTodaySubmission()
+      }, 2000)
     }
   }
 }
