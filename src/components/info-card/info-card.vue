@@ -8,9 +8,9 @@
       </Col>
       <Col span="16" class="h-100">
       <Row class="h-100" type="flex" align="middle" justify="center">
-        <div>
+        <div class="info-count-div">
           <span class="count" :style="{color: background}">
-            {{count}}
+            {{counted.val}}{{counted.unit}}
           </span>
           <p class="description">
             {{desc}}
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import util from '@/utils'
 export default {
   props: {
     background: {
@@ -40,6 +41,11 @@ export default {
       required: true
     }
   },
+  computed: {
+    counted() {
+      return util.transformValue(this.count)
+    }
+  },
   data() {
     return {}
   }
@@ -53,6 +59,10 @@ export default {
 
 .info-card-div {
   height: 100px;
+}
+
+.info-count-div {
+  text-align: center;
 }
 
 .info-card-icon {

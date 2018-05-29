@@ -26,7 +26,7 @@
       <Col :lg="16" :md="24">
       <Row :gutter="5">
         <Col :xs="24" :sm="12" :md="6">
-        <info-card desc="题目总数" icon-type="document" icon-size="40" :count="888" background="#2d8cf0"></info-card>
+        <info-card desc="题目总数" icon-type="document" icon-size="40" :count="888888" background="#2d8cf0"></info-card>
         </Col>
         <Col :xs="24" :sm="12" :md="6">
         <info-card desc="用户总数" icon-type="person-stalker" icon-size="40" :count="888" background="#ed3f14"></info-card>
@@ -35,12 +35,34 @@
         <info-card desc="比赛总数" icon-type="compass" icon-size="40" :count="888" background="#19be6b"></info-card>
         </Col>
         <Col :xs="24" :sm="12" :md="6">
-        <info-card desc="公告总数" icon-type="chatboxes" icon-size="40" :count="888" background="#ff9900"></info-card>
+        <info-card desc="公告总数" icon-type="speakerphone" icon-size="40" :count="888" background="#ff9900"></info-card>
+        </Col>
+      </Row>
+      <Row :gutter="5">
+        <Col :xs="24" :sm="12">
+        <info-card desc="今日评判总数" icon-type="upload" icon-size="40" :count="888" background="#2d8cf0"></info-card>
+        </Col>
+        <Col :xs="24" :sm="12">
+        <info-card desc="裁判端总数" icon-type="social-tux" icon-size="40" :count="888" background="#19be6b"></info-card>
         </Col>
       </Row>
       </Col>
     </Row>
     <Row>
+      <Col :xs="24" :md="12">
+      <judger-info></judger-info>
+      </Col>
+      <Col :xs="24" :md="12">
+      <judger-info></judger-info>
+      </Col>
+    </Row>
+    <Row>
+      <Col :xs="24" :md="12">
+      <judger-info></judger-info>
+      </Col>
+      <Col :xs="24" :md="12">
+      <judger-info></judger-info>
+      </Col>
     </Row>
   </div>
 </template>
@@ -75,11 +97,6 @@ export default {
   width: 80%;
   height: auto;
   display: block;
-}
-.line-split {
-  height: 0;
-  border-bottom: 2px solid #dcdcdc;
-  margin: 10px 0;
 }
 
 .intro-desc {
