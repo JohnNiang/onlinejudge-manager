@@ -26,16 +26,16 @@
       <Col :lg="16" :md="24">
       <Row :gutter="5">
         <Col :xs="24" :sm="12" :md="6">
-        <info-card desc="题目总数" icon-type="document" icon-size="40" :count="888888" background="#2d8cf0"></info-card>
+        <info-card desc="题目总数" icon-type="document" icon-size="40" :count="problemCount" background="#2d8cf0"></info-card>
         </Col>
         <Col :xs="24" :sm="12" :md="6">
-        <info-card desc="用户总数" icon-type="person-stalker" icon-size="40" :count="888" background="#ed3f14"></info-card>
+        <info-card desc="用户总数" icon-type="person-stalker" icon-size="40" :count="userCount" background="#ed3f14"></info-card>
         </Col>
         <Col :xs="24" :sm="12" :md="6">
-        <info-card desc="比赛总数" icon-type="compass" icon-size="40" :count="888" background="#19be6b"></info-card>
+        <info-card desc="比赛总数" icon-type="compass" icon-size="40" :count="contestCount" background="#19be6b"></info-card>
         </Col>
         <Col :xs="24" :sm="12" :md="6">
-        <info-card desc="公告总数" icon-type="speakerphone" icon-size="40" :count="888" background="#ff9900"></info-card>
+        <info-card desc="公告总数" icon-type="speakerphone" icon-size="40" :count="bulletinCount" background="#ff9900"></info-card>
         </Col>
       </Row>
       <Row :gutter="5">
@@ -43,25 +43,14 @@
         <info-card desc="今日评判总数" icon-type="upload" icon-size="40" :count="888" background="#2d8cf0"></info-card>
         </Col>
         <Col :xs="24" :sm="12">
-        <info-card desc="裁判端总数" icon-type="social-tux" icon-size="40" :count="888" background="#19be6b"></info-card>
+        <info-card desc="裁判端总数" icon-type="social-tux" icon-size="40" :count="jdugers" background="#19be6b"></info-card>
         </Col>
       </Row>
       </Col>
     </Row>
     <Row>
-      <Col :xs="24" :md="12">
-      <judger-info></judger-info>
-      </Col>
-      <Col :xs="24" :md="12">
-      <judger-info></judger-info>
-      </Col>
-    </Row>
-    <Row>
-      <Col :xs="24" :md="12">
-      <judger-info></judger-info>
-      </Col>
-      <Col :xs="24" :md="12">
-      <judger-info></judger-info>
+      <Col :xs="24" :md="12" v-for="(judgerInfo, index) in judgerInfos" :key="index">
+      <judger-info :judger-info="judgerInfo"></judger-info>
       </Col>
     </Row>
   </div>
@@ -69,19 +58,91 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import problemApi from '@/apis/problem'
+import contestApi from '@/apis/contest'
+import userApi from '@/apis/user'
+import bulletinApi from '@/apis/bulletin'
+import judgerApi from '@/apis/judger'
 
 const types = {
-  admin: '管理员'
+  admin: '管理员',
+  teacher: '教师'
 }
 
 export default {
   data() {
-    return {}
+    return {
+      problemCount: 0,
+      contestCount: 0,
+      bulletinCount: 0,
+      userCount: 0,
+      judgerInfos: []
+    }
+  },
+  created() {
+    this.getProblemCount()
+    this.getContestCount()
+    this.getUserCount()
+    this.getBulletinCount()
+    this.setGetInterval()
   },
   computed: {
     ...mapGetters(['user']),
-    userType: function() {
+    userType() {
       return types[this.user.userType]
+    },
+    jdugers() {
+      return this.judgerInfos ? this.judgerInfos.length : 0
+    }
+  },
+  methods: {
+    getProblemCount() {
+      problemApi.count().then(response => {
+        if (response) {
+          if (response.status === 200) {
+            this.problemCount = response.data
+          }
+        }
+      })
+    },
+    getContestCount() {
+      contestApi.count().then(response => {
+        if (response) {
+          if (response.status === 200) {
+            this.contestCount = response.data
+          }
+        }
+      })
+    },
+    getUserCount() {
+      userApi.count().then(response => {
+        if (response) {
+          if (response.status === 200) {
+            this.userCount = response.data
+          }
+        }
+      })
+    },
+    getBulletinCount() {
+      bulletinApi.count().then(response => {
+        if (response) {
+          if (response.status === 200) {
+            this.bulletinCount = response.data
+          }
+        }
+      })
+    },
+    setGetInterval() {
+      setInterval(this.getJudgeInfo, 1000)
+    },
+    getJudgeInfo() {
+      judgerApi.getJudgerInfo().then(response => {
+        if (response) {
+          if (response.status === 200) {
+            this.judgerInfos = response.data
+          }
+        }
+      })
     }
   }
 }
