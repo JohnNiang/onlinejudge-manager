@@ -76,7 +76,8 @@ export default {
       contestCount: 0,
       bulletinCount: 0,
       userCount: 0,
-      judgerInfos: []
+      judgerInfos: [],
+      interval: null
     }
   },
   created() {
@@ -84,7 +85,11 @@ export default {
     this.getContestCount()
     this.getUserCount()
     this.getBulletinCount()
-    this.setGetInterval()
+    // set interval
+    this.$options.interval = setInterval(this.getJudgeInfo, 2000)
+  },
+  deactivated() {
+    clearInterval(this.$options.interval)
   },
   computed: {
     ...mapGetters(['user']),
@@ -131,9 +136,6 @@ export default {
           }
         }
       })
-    },
-    setGetInterval() {
-      setInterval(this.getJudgeInfo, 1000)
     },
     getJudgeInfo() {
       judgerApi.getJudgerInfo().then(response => {

@@ -51,6 +51,8 @@ import 'echarts/lib/chart/bar'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 
+import util from '@/utils'
+
 export default {
   components: {
     chart: ECharts
@@ -63,7 +65,7 @@ export default {
   },
   computed: {
     uptimes() {
-      return this.judgerInfo.map(item => item.uptime)
+      return this.judgerInfo.map(item => util.toThousands(item.uptime))
     },
     judgeStatus() {
       return this.judgerInfo.map(item => (item.judging ? 1 : 0))
