@@ -87,3 +87,26 @@ export function transformValue(val) {
     unit: unit
   }
 }
+
+export function millisToMinutesAndSeconds(millis) {
+  let minutes = Math.floor(millis / 60000)
+  let seconds = ((millis % 60000) / 1000).toFixed(0)
+  return minutes + ':' + (seconds < 10 ? '0' : '') + seconds
+}
+
+export function destructMS(milli) {
+  if (isNaN(milli) || milli < 0) {
+    return null
+  }
+
+  let d, h, m, s, ms
+  s = Math.floor(milli / 1000)
+  m = Math.floor(s / 60)
+  s = s % 60
+  h = Math.floor(m / 60)
+  m = m % 60
+  d = Math.floor(h / 24)
+  h = h % 24
+  ms = Math.floor((milli % 1000) * 1000) / 1000
+  return { d: d, h: h, m: m, s: s, ms: ms }
+}

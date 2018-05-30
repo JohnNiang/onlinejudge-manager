@@ -65,7 +65,10 @@ export default {
   },
   computed: {
     uptimes() {
-      return this.judgerInfo.map(item => util.toThousands(item.uptime))
+      return this.judgerInfo.map((item, index) => {
+        const time = util.destructMS(item.uptime)
+        return `${time.d}d ${time.m}m ${time.s}s ${time.ms}ms`
+      })
     },
     judgeStatus() {
       return this.judgerInfo.map(item => (item.judging ? 1 : 0))
@@ -77,7 +80,7 @@ export default {
     // },
     name() {
       const name = this.judgerInfo ? this.judgerInfo[0].name : 'unknown'
-      return this.judgerInfo ? name.substr(0, name.length - 26) : name
+      return this.judgerInfo ? name.substr(0, name.length - 26) + '*' : name
     },
     processors() {
       return this.judgerInfo ? this.judgerInfo[0].availableProcessors : 0
@@ -103,8 +106,12 @@ export default {
           left: 'center'
         },
         xAxis: {
-          name: '启动时间(ms)',
+          name: '启动时间',
           type: 'category',
+          axisLabel: {
+            interval: 0,
+            rotate: 50
+          },
           scale: true,
           data: this.uptimes
         },
@@ -128,8 +135,11 @@ export default {
           max: 1
         },
         grid: {
-          right: '20%'
+          left: '15%',
+          right: '20%',
+          bottom: '35%'
         },
+        animation: false,
         series: [
           {
             data: this.judgeStatus,
@@ -153,7 +163,7 @@ export default {
 .echarts {
   width: 100%;
   min-width: 200px;
-  height: 200px;
+  height: 300px;
   margin-top: 10px;
 }
 

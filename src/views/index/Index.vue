@@ -81,12 +81,11 @@ export default {
       judgerInfos: []
     }
   },
-  created() {
+  activated() {
     this.getProblemCount()
     this.getContestCount()
     this.getUserCount()
     this.getBulletinCount()
-
     this.setInterval()
   },
   deactivated() {
@@ -160,6 +159,7 @@ export default {
       // set interval
       this.$options.interval = setInterval(() => {
         this.getJudgerInfo()
+        this.getUserCount()
         this.countTodaySubmission()
       }, 2000)
     }
