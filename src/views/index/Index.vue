@@ -46,6 +46,11 @@
         <info-card desc="裁判端总数" icon-type="social-tux" icon-size="40" :count="jdugers" background="#19be6b"></info-card>
         </Col>
       </Row>
+      <Row :gutter="5">
+        <Col :span="24">
+        <info-card desc="总评判数" icon-type="upload" icon-size="40" :count="submissionCount" background="#2d8cf0"></info-card>
+        </Col>
+      </Row>
       </Col>
     </Row>
     <Row>
@@ -77,15 +82,12 @@ export default {
       contestCount: 0,
       bulletinCount: 0,
       userCount: 0,
+      submissionCount: 0,
       todaySubmissionCount: 0,
       judgerInfos: []
     }
   },
   activated() {
-    this.getProblemCount()
-    this.getContestCount()
-    this.getUserCount()
-    this.getBulletinCount()
     this.setInterval()
   },
   deactivated() {
@@ -146,6 +148,15 @@ export default {
         }
       })
     },
+    getSubmissionCount() {
+      submissionApi.count().then(response => {
+        if (response) {
+          if (response.status === 200) {
+            this.submissionCount = response.data
+          }
+        }
+      })
+    },
     countTodaySubmission() {
       submissionApi.countToday().then(response => {
         if (response) {
@@ -158,8 +169,12 @@ export default {
     setInterval() {
       // set interval
       this.$options.interval = setInterval(() => {
+        this.getProblemCount()
+        this.getContestCount()
+        this.getBulletinCount()
         this.getJudgerInfo()
         this.getUserCount()
+        this.getSubmissionCount()
         this.countTodaySubmission()
       }, 2000)
     }
