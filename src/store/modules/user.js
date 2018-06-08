@@ -54,6 +54,7 @@ const actions = {
       if (response && response.status === 200) {
         commit(type.SET_TOKEN, response.data)
       } else {
+        commit(type.CLEAR_TOKEN)
         commit(
           type.ERROR_OCCURRED,
           'Login failed, username or password was not available'
