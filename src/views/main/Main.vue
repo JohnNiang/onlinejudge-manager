@@ -120,10 +120,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentPath', 'user', 'globalError'])
+    ...mapGetters(['currentPath', 'user', 'globalError', 'isLogined'])
   },
   created() {
-    this.refreshUserDetail()
+    if (this.isLogined) {
+      this.refreshUserDetail()
+    }
   },
   methods: {
     ...mapActions(['refreshUserDetail']),
