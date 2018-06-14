@@ -88,6 +88,7 @@ export default {
     }
   },
   activated() {
+    this.fetchData()
     this.setInterval()
   },
   deactivated() {
@@ -166,16 +167,19 @@ export default {
         }
       })
     },
+    fetchData() {
+      this.getProblemCount()
+      this.getContestCount()
+      this.getBulletinCount()
+      this.getJudgerInfo()
+      this.getUserCount()
+      this.getSubmissionCount()
+      this.countTodaySubmission()
+    },
     setInterval() {
       // set interval
       this.$options.interval = setInterval(() => {
-        this.getProblemCount()
-        this.getContestCount()
-        this.getBulletinCount()
-        this.getJudgerInfo()
-        this.getUserCount()
-        this.getSubmissionCount()
-        this.countTodaySubmission()
+        this.fetchData()
       }, 2000)
     }
   }
