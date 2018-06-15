@@ -1,7 +1,7 @@
  <template>
   <div class="problem_wrapper">
     <Row>
-      <Col span="18">
+      <Col :lg="18" :md="24">
       <Card>
         <p slot="title" class="center">
           <Icon type="android-create"></Icon>
@@ -41,7 +41,7 @@
         </Form>
       </Card>
       </Col>
-      <Col span="6">
+      <Col :lg="6" :md="24">
       <Card :bordered="false">
         <p slot="title">
           <Icon type="paper-airplane"></Icon>

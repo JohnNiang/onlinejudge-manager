@@ -1,7 +1,7 @@
 <template>
   <div class="language_wrapper">
     <Row>
-      <Col span="16">
+      <Col :lg="16" :md="24">
       <Card>
         <p slot="title" class="center">
           <Icon type="android-list"></Icon>
@@ -10,7 +10,7 @@
         <Table stripe :columns="languageColumn" :data="languageList"></Table>
       </Card>
       </Col>
-      <Col span="8">
+      <Col :lg="8" :md="24">
       <language-action :stageLanguage="languageToDo" :action="action" @on-action-success="handleActionSuccess" @on-cancel="handleCancel" @on-reset="handleReset"></language-action>
       <Card>
         <p slot="title" class="center">

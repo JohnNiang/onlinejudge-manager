@@ -72,6 +72,7 @@
 <script>
 import problemApi from '@/apis/problem'
 import util from '@/utils'
+import constant from '@/utils/constant'
 
 export default {
   data() {
@@ -89,12 +90,16 @@ export default {
         },
         {
           title: '题目标题',
-          key: 'title'
+          key: 'title',
+          width: 300
         },
         {
           title: '题目类型',
           key: 'type',
-          width: 100
+          width: 100,
+          render: (h, params) => {
+            return h('span', constant.problemType[params.row.type].value)
+          }
         },
         {
           title: '创建时间',
@@ -111,14 +116,11 @@ export default {
           }
         },
         {
-          title: '是否已经发布过',
+          title: '状态',
           width: 100,
-          key: 'published'
-        },
-        {
-          title: '状体',
-          width: 100,
-          key: 'status'
+          render: (h, params) => {
+            return h('span', constant.problemStatus[params.row.status].value)
+          }
         }
       ],
       problems: [],
